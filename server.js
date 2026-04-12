@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const JWT_SECRET = process.env.JWT_SECRET || "dev-secret";
+const JWT_SECRET = process.env.JWT_SECRET || "dev-secret-change-me";
 
 app.use(cors());
 app.use(express.json());
@@ -17,6 +17,60 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false }
 });
+
+function calcGrade(percent) {
+  if (percent >= 92) return 1.0;
+  if (percent >= 81) return 2.0;
+  if (percent >= 67) return 3.0;
+  if (percent >= 50) return 4.0;
+  if (percent >= 30) return 5.0;
+  return 6.0;
+}
+
+function auth(req, res, next) {
+  const authHeader = req.headers.authorization || "";
+  const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : null;
+  if (!token) return res.status(401).json({ error: "Nicht eingeloggt" });
+
+  try {
+    req.user = jwt.verify(token, JWT_SECRET);
+    next();
+  } catch {
+    res.status(401).json({ error: "Token ungültig oder abgelaufen" });
+  }
+}
+
+function requireRole(role) {
+  return (req, res, next) => {
+    if (!req.user || req.user.role !== role) {
+      return res.status(403).json({ error: "Keine Berechtigung" });
+    }
+    next();
+  };
+}
+
+async function seedQuestionsForTopic(topicId) {
+  const exists = await pool.query("SELECT COUNT(*)::int AS c FROM questions WHERE topic_id = $1", [topicId]);
+  if (exists.rows[0].c >= 30) return;
+
+  // Platzhalter-Fragen (30 Stück). Du kannst sie später durch echte C14-Fragen ersetzen.
+  for (let i = 1; i <= 30; i += 1) {
+    await pool.query(
+      `INSERT INTO questions
+        (topic_id, question_text, option_a, option_b, option_c, option_d, correct_option)
+       VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+      [
+        topicId,
+        `C14 Frage ${i}: Welche Aussage ist richtig?`,
+        "Aussage A",
+        "Aussage B",
+        "Aussage C",
+        "Aussage D",
+        "A"
+      ]
+    );
+  }
+}
 
 async function initDb() {
   await pool.query(`
@@ -80,9 +134,39 @@ async function initDb() {
     INSERT INTO topics (title, subject)
     SELECT 'C14 Methode', 'NT'
     WHERE NOT EXISTS (
-      SELECT 1 FROM topics WHERE title='C14 Methode' AND subject='NT'
+      SELECT 1 FROM topics WHERE title = 'C14 Methode' AND subject = 'NT'
     );
   `);
+
+  const topic = await pool.query(
+    "SELECT id FROM topics WHERE title = 'C14 Methode' AND subject = 'NT' LIMIT 1"
+  );
+  await seedQuestionsForTopic(topic.rows[0].id);
+
+  const teacherHash = await bcrypt.hash("Lehrer123!", 10);
+  const s1Hash = await bcrypt.hash("Schueler1!", 10);
+  const s2Hash = await bcrypt.hash("Schueler2!", 10);
+
+  await pool.query(
+    `INSERT INTO users (username, password_hash, role, class_name)
+     VALUES ($1, $2, 'teacher', '9M')
+     ON CONFLICT (username) DO NOTHING`,
+    ["lehrer", teacherHash]
+  );
+
+  await pool.query(
+    `INSERT INTO users (username, password_hash, role, class_name)
+     VALUES ($1, $2, 'student', '9M')
+     ON CONFLICT (username) DO NOTHING`,
+    ["s1", s1Hash]
+  );
+
+  await pool.query(
+    `INSERT INTO users (username, password_hash, role, class_name)
+     VALUES ($1, $2, 'student', '9M')
+     ON CONFLICT (username) DO NOTHING`,
+    ["s2", s2Hash]
+  );
 }
 
 app.get("/health", async (req, res) => {
@@ -97,11 +181,12 @@ app.get("/health", async (req, res) => {
 app.post("/api/login", async (req, res) => {
   try {
     const { username, password } = req.body;
+    if (!username || !password) return res.status(400).json({ error: "username und password erforderlich" });
+
     const q = await pool.query(
       "SELECT id, username, role, password_hash FROM users WHERE username = $1",
       [username]
     );
-
     if (q.rows.length === 0) return res.status(401).json({ error: "Ungültige Daten" });
 
     const user = q.rows[0];
@@ -114,7 +199,185 @@ app.post("/api/login", async (req, res) => {
       { expiresIn: "12h" }
     );
 
-    res.json({ token, user: { id: user.id, username: user.username, role: user.role } });
+    res.json({
+      token,
+      user: { id: user.id, username: user.username, role: user.role }
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get("/api/me", auth, async (req, res) => {
+  res.json({ user: req.user });
+});
+
+app.get("/api/topics", auth, async (req, res) => {
+  try {
+    const q = await pool.query("SELECT id, title, subject FROM topics ORDER BY id");
+    res.json(q.rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get("/api/topics/:topicId/questions", auth, async (req, res) => {
+  try {
+    const topicId = Number(req.params.topicId);
+    if (!topicId) return res.status(400).json({ error: "Ungültige topicId" });
+
+    if (req.user.role === "student") {
+      const already = await pool.query(
+        "SELECT 1 FROM attempts WHERE student_id = $1 AND topic_id = $2",
+        [req.user.id, topicId]
+      );
+      if (already.rows.length > 0) {
+        return res.status(409).json({ error: "Test bereits absolviert" });
+      }
+    }
+
+    const q = await pool.query(
+      `SELECT id, question_text, option_a, option_b, option_c, option_d
+       FROM questions
+       WHERE topic_id = $1
+       ORDER BY id
+       LIMIT 30`,
+      [topicId]
+    );
+
+    res.json({ topicId, questions: q.rows });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post("/api/topics/:topicId/submit", auth, requireRole("student"), async (req, res) => {
+  const client = await pool.connect();
+  try {
+    const topicId = Number(req.params.topicId);
+    const answers = Array.isArray(req.body.answers) ? req.body.answers : [];
+    if (!topicId) return res.status(400).json({ error: "Ungültige topicId" });
+
+    const already = await client.query(
+      "SELECT 1 FROM attempts WHERE student_id = $1 AND topic_id = $2",
+      [req.user.id, topicId]
+    );
+    if (already.rows.length > 0) {
+      return res.status(409).json({ error: "Test bereits absolviert" });
+    }
+
+    const q = await client.query(
+      `SELECT id, correct_option
+       FROM questions
+       WHERE topic_id = $1
+       ORDER BY id
+       LIMIT 30`,
+      [topicId]
+    );
+
+    if (q.rows.length !== 30) {
+      return res.status(400).json({ error: "Für dieses Thema sind keine 30 Fragen hinterlegt" });
+    }
+
+    const answerMap = new Map();
+    for (const a of answers) {
+      if (!a || !a.questionId || !a.selectedOption) continue;
+      answerMap.set(Number(a.questionId), String(a.selectedOption).toUpperCase());
+    }
+
+    let correct = 0;
+    const detailed = q.rows.map((row) => {
+      const selected = answerMap.get(row.id) || "A";
+      const isCorrect = selected === row.correct_option;
+      if (isCorrect) correct += 1;
+      return {
+        questionId: row.id,
+        selectedOption: selected,
+        isCorrect
+      };
+    });
+
+    const total = q.rows.length;
+    const percent = Number(((correct / total) * 100).toFixed(2));
+    const grade = calcGrade(percent);
+
+    await client.query("BEGIN");
+
+    const insAttempt = await client.query(
+      `INSERT INTO attempts
+       (student_id, topic_id, total_questions, correct_answers, percent, grade, subject)
+       VALUES ($1, $2, $3, $4, $5, $6, 'NT')
+       RETURNING id`,
+      [req.user.id, topicId, total, correct, percent, grade]
+    );
+
+    const attemptId = insAttempt.rows[0].id;
+
+    for (const d of detailed) {
+      await client.query(
+        `INSERT INTO attempt_answers (attempt_id, question_id, selected_option, is_correct)
+         VALUES ($1, $2, $3, $4)`,
+        [attemptId, d.questionId, d.selectedOption, d.isCorrect]
+      );
+    }
+
+    await client.query("COMMIT");
+
+    res.json({
+      saved: true,
+      attemptId,
+      totalQuestions: total,
+      correctAnswers: correct,
+      percent,
+      grade
+    });
+  } catch (err) {
+    await client.query("ROLLBACK");
+    if (err.code === "23505") {
+      return res.status(409).json({ error: "Test bereits absolviert" });
+    }
+    res.status(500).json({ error: err.message });
+  } finally {
+    client.release();
+  }
+});
+
+app.get("/api/my-results", auth, requireRole("student"), async (req, res) => {
+  try {
+    const q = await pool.query(
+      `SELECT a.id, a.topic_id, t.title, a.subject, a.total_questions, a.correct_answers, a.percent, a.grade, a.finished_at
+       FROM attempts a
+       JOIN topics t ON t.id = a.topic_id
+       WHERE a.student_id = $1
+       ORDER BY a.finished_at DESC`,
+      [req.user.id]
+    );
+    res.json(q.rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get("/api/teacher/results", auth, requireRole("teacher"), async (req, res) => {
+  try {
+    const q = await pool.query(
+      `SELECT
+         a.id AS attempt_id,
+         u.username AS student_username,
+         u.class_name,
+         t.title AS topic_title,
+         a.subject,
+         a.correct_answers,
+         a.total_questions,
+         a.percent,
+         a.grade,
+         a.finished_at
+       FROM attempts a
+       JOIN users u ON u.id = a.student_id
+       JOIN topics t ON t.id = a.topic_id
+       ORDER BY a.finished_at DESC`
+    );
+    res.json(q.rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
