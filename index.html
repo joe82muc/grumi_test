@@ -3,359 +3,322 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NT Testsystem | GRUMI</title>
+  <title>GRUMI Lernplattform</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --pop-yellow: #FFE135;
-      --pop-pink: #FF4081;
-      --pop-blue: #2196F3;
-      --pop-green: #00E676;
-      --pop-orange: #FF9100;
-      --pop-purple: #AA00FF;
-      --bg-dark: #1a1a2e;
-      --bg-card: #16213e;
-      --bg-card-alt: #0f3460;
-      --text-light: #f0f0f0;
-      --text-muted: #a0b0c0;
+      --bg-main: #0f223f;
+      --bg-panel: #142a4d;
+      --bg-panel-2: #1a345b;
+      --line: rgba(255,255,255,0.12);
+      --text: #f2f7ff;
+      --muted: #9fb3cc;
+      --green: #14e3a1;
+      --blue: #2f9dff;
+      --orange: #ff9f1a;
+      --yellow: #ffd94f;
       --radius: 18px;
-      --shadow: 0 8px 32px rgba(0,0,0,0.3);
+      --shadow: 0 12px 30px rgba(0,0,0,0.28);
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: 'Nunito', sans-serif;
-      background: var(--bg-dark);
-      color: var(--text-light);
+      background: linear-gradient(180deg, #0f203a 0%, #102746 100%);
+      color: var(--text);
       min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background:
-        radial-gradient(circle at 10% 20%, rgba(255,64,129,0.12) 0%, transparent 50%),
-        radial-gradient(circle at 80% 60%, rgba(33,150,243,0.12) 0%, transparent 50%),
-        radial-gradient(circle at 50% 90%, rgba(0,230,118,0.1) 0%, transparent 50%),
-        radial-gradient(circle at 90% 10%, rgba(170,0,255,0.08) 0%, transparent 40%);
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    .bg-shapes {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      z-index: 0;
-      pointer-events: none;
-      overflow: hidden;
-    }
-
-    .bg-shapes span {
-      position: absolute;
-      border-radius: 50%;
-      opacity: 0.07;
-      animation: floatShape 20s infinite ease-in-out;
-    }
-
-    .bg-shapes span:nth-child(1) { width: 300px; height: 300px; background: var(--pop-pink); top: -5%; left: -5%; animation-delay: 0s; }
-    .bg-shapes span:nth-child(2) { width: 200px; height: 200px; background: var(--pop-blue); top: 30%; right: -3%; animation-delay: -5s; }
-    .bg-shapes span:nth-child(3) { width: 250px; height: 250px; background: var(--pop-green); bottom: 10%; left: 20%; animation-delay: -10s; border-radius: 30%; }
-    .bg-shapes span:nth-child(4) { width: 180px; height: 180px; background: var(--pop-yellow); top: 60%; left: 60%; animation-delay: -15s; }
-
-    @keyframes floatShape {
-      0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
-      25% { transform: translate(30px, -40px) rotate(10deg) scale(1.1); }
-      50% { transform: translate(-20px, 20px) rotate(-5deg) scale(0.95); }
-      75% { transform: translate(15px, 35px) rotate(8deg) scale(1.05); }
     }
 
     header {
-      position: relative;
-      z-index: 10;
-      background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-card-alt) 100%);
-      border-bottom: 3px solid;
-      border-image: linear-gradient(90deg, var(--pop-pink), var(--pop-yellow), var(--pop-green), var(--pop-blue), var(--pop-purple)) 1;
-      padding: 14px 24px;
+      background: #0e2a4a;
+      border-bottom: 4px solid transparent;
+      border-image: linear-gradient(90deg, #ff5d7a, #ffcf3e, #26e49f, #2f9dff) 1;
+      padding: 12px 20px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.25);
     }
 
-    .brand {
+    .head-wrap {
+      max-width: 1220px;
+      margin: 0 auto;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      max-width: 1200px;
-      margin: 0 auto;
-      flex-wrap: wrap;
       gap: 12px;
     }
 
-    .brand-main {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
+    .head-wrap img { height: 56px; width: auto; }
 
-    .brand-logo {
-      height: 52px;
-      width: auto;
-      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));
-    }
-
-    .brand h1 {
+    .brand-title {
       font-family: 'Fredoka', sans-serif;
-      font-size: clamp(0.9rem, 2vw, 1.2rem);
       font-weight: 700;
-      background: linear-gradient(90deg, var(--pop-yellow), var(--pop-orange), var(--pop-pink));
+      font-size: clamp(1rem, 2.2vw, 1.7rem);
+      line-height: 1.15;
+      background: linear-gradient(90deg, var(--yellow), #ffa43d, #ff6f61);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      line-height: 1.2;
     }
 
-    .brand small {
-      font-size: 0.72rem;
-      color: var(--text-muted);
+    .brand-sub {
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin-top: 3px;
     }
 
-    #loginBadge {
-      font-size: 0.78rem;
-      padding: 5px 14px;
-      border-radius: 20px;
+    .login-badge {
+      margin-left: auto;
       background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
-      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 7px 14px;
+      font-size: 0.78rem;
       white-space: nowrap;
     }
 
-    #loginBadge.logged-in {
-      background: rgba(0,230,118,0.15);
-      border-color: var(--pop-green);
-      color: var(--pop-green);
+    .login-badge.logged-in {
+      color: #0d3f2d;
+      background: rgba(20,227,161,0.95);
+      border-color: rgba(20,227,161,1);
+      font-weight: 800;
     }
 
     main {
-      position: relative;
-      z-index: 5;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 28px 20px 60px;
+      max-width: 1220px;
+      margin: 20px auto 0;
+      padding: 0 16px 24px;
     }
 
-    .hero-section {
-      position: relative;
+    .welcome {
+      background: var(--bg-panel);
+      border: 1px solid var(--line);
       border-radius: var(--radius);
-      overflow: hidden;
-      margin-bottom: 24px;
+      padding: 14px 16px;
+      margin-bottom: 16px;
       box-shadow: var(--shadow);
-    }
-
-    .hero-img {
-      width: 100%;
-      height: 240px;
-      object-fit: cover;
-      object-position: center top;
-      display: block;
-    }
-
-    .hero-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(26,26,46,0.95) 0%, rgba(26,26,46,0.4) 50%, transparent 100%);
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 24px;
-    }
-
-    .hero-overlay h2 {
       font-family: 'Fredoka', sans-serif;
-      font-size: clamp(1.3rem, 3.6vw, 2rem);
-      font-weight: 700;
-      margin-bottom: 6px;
-      text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+      font-size: 1.2rem;
+      color: var(--yellow);
     }
 
-    .hero-overlay p { color: var(--text-muted); }
-
-    .content-grid {
+    .layout {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 20px;
+      gap: 18px;
+      align-items: stretch;
     }
 
-    .card {
-      background: var(--bg-card);
+    .layout > .panel { height: 100%; }
+
+    .panel {
+      background: var(--bg-panel);
+      border: 1px solid var(--line);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.06);
     }
 
-    .card-header {
-      padding: 16px 20px 12px;
+    .panel-head {
       display: flex;
       align-items: center;
       gap: 10px;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 11px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      flex-shrink: 0;
-    }
-
-    .card-header h3 {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
       font-family: 'Fredoka', sans-serif;
       font-size: 1.05rem;
-      font-weight: 600;
+      font-weight: 700;
     }
 
-    .card-body { padding: 16px 20px 20px; }
+    .icon-box {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(145deg, #1de6b0, #1f9eff);
+      display: grid;
+      place-items: center;
+      font-size: 1.2rem;
+    }
+
+    .panel-body { padding: 14px 16px 16px; }
+
+    .klasse-group { margin-bottom: 10px; }
+    .klasse-group:last-child { margin-bottom: 0; }
+
+    .klasse-toggle {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: var(--bg-panel-2);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 11px 14px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .badge {
+      min-width: 28px;
+      height: 22px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.78rem;
+      font-weight: 900;
+      color: #002a1e;
+    }
+
+    .k7 .badge { background: var(--green); }
+    .k8 .badge { background: var(--blue); color: #fff; }
+    .k9 .badge { background: var(--orange); }
+
+    .arrow { margin-left: auto; color: var(--muted); transition: transform .2s; }
+    .klasse-toggle.open .arrow { transform: rotate(180deg); }
+
+    .fach-list { display: none; padding: 8px 4px 0 6px; }
+    .fach-list.open { display: block; }
+
+    .fach-link {
+      display: block;
+      text-decoration: none;
+      color: #dfe9f8;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 8px 10px;
+      margin: 4px 0;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .fach-link:hover { background: rgba(255,255,255,0.09); }
+
+    .api-note {
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.45;
+      margin-bottom: 10px;
+    }
 
     input, select, button {
       width: 100%;
       padding: 10px 12px;
       border-radius: 10px;
-      border: 2px solid rgba(255,255,255,0.1);
-      background: rgba(0,0,0,0.25);
-      color: var(--text-light);
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(0,0,0,0.22);
+      color: #f7fbff;
       font-family: 'Nunito', sans-serif;
       font-size: 0.92rem;
-      margin-bottom: 10px;
+      margin-bottom: 9px;
     }
 
-    select option {
-      color: #000;
-      background: #fff;
-    }
-
-    input:focus, select:focus {
-      outline: none;
-      border-color: var(--pop-blue);
-      box-shadow: 0 0 0 3px rgba(33,150,243,0.15);
-    }
+    select option { color: #000; background: #fff; }
 
     button {
       border: none;
-      background: linear-gradient(135deg, var(--pop-blue), var(--pop-purple));
-      color: #fff;
-      font-family: 'Fredoka', sans-serif;
-      font-size: 0.92rem;
-      font-weight: 600;
       cursor: pointer;
-      transition: transform .15s;
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      background: linear-gradient(135deg, #2f9dff, #6b5bff);
     }
 
-    button:hover { transform: translateY(-1px); }
-
-    .logout-btn {
-      background: linear-gradient(135deg, var(--pop-orange), var(--pop-pink));
-      max-width: 220px;
-    }
-
-    #submitBtn {
-      background: linear-gradient(135deg, var(--pop-green), var(--pop-blue));
-    }
+    .logout-btn { background: linear-gradient(135deg, #ff9f1a, #ff5d7a); max-width: 220px; }
+    #submitBtn { background: linear-gradient(135deg, #14e3a1, #2f9dff); }
 
     .hidden { display: none !important; }
-
-    .q {
-      border-top: 1px solid rgba(255,255,255,0.12);
-      padding: 12px 0;
-      margin-top: 8px;
-    }
-
+    .q { border-top: 1px solid rgba(255,255,255,0.14); padding: 11px 0; }
     .q p { margin-bottom: 8px; }
+    .q label { display: block; margin-bottom: 6px; font-size: 0.93rem; }
+    .q input[type="radio"] { width: auto; margin-right: 6px; margin-bottom: 0; accent-color: #14e3a1; }
 
-    .q label {
+    .ok { color: #14e3a1; font-weight: 800; }
+    .err { color: #ff8a8a; font-weight: 800; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    th, td { border-bottom: 1px solid rgba(255,255,255,0.12); text-align: left; padding: 8px; }
+    th { color: var(--yellow); font-family: 'Fredoka', sans-serif; }
+
+    footer {
+      margin-top: 18px;
+      background: #15314d;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      text-align: center;
+      padding: 18px 14px;
+      color: var(--muted);
+    }
+
+    footer .school { font-size: 1.02rem; margin-bottom: 8px; }
+
+    footer .legal {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    footer a { color: var(--muted); text-decoration: none; font-weight: 700; }
+    footer a:hover { color: #fff; }
+
+
+    .header-hero {
+      max-width: 1220px;
+      margin: 10px auto 0;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.18);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.28);
+    }
+
+    .header-hero img {
       display: block;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 8px;
-      padding: 8px 10px;
-      margin-bottom: 6px;
-      cursor: pointer;
-    }
-
-    .q input[type="radio"] {
-      width: auto;
-      margin-right: 6px;
-      margin-bottom: 0;
-      accent-color: var(--pop-green);
-    }
-
-    .ok { color: var(--pop-green); font-weight: 700; }
-    .err { color: #ff6b6b; font-weight: 700; }
-
-    table {
       width: 100%;
-      border-collapse: collapse;
-      font-size: 0.9rem;
+      height: 180px;
+      object-fit: cover;
+      object-position: center;
     }
-
-    th, td {
-      border-bottom: 1px solid rgba(255,255,255,0.12);
-      text-align: left;
-      padding: 8px;
-      vertical-align: top;
-    }
-
-    th { color: var(--pop-yellow); font-family: 'Fredoka', sans-serif; }
-
-    .full-width { grid-column: 1 / -1; }
-
-    @media (max-width: 900px) {
-      .content-grid { grid-template-columns: 1fr; }
-      .hero-img { height: 180px; }
+    @media (max-width: 980px) {
+      .layout { grid-template-columns: 1fr; }
+      .layout > .panel { height: auto; }
+      .login-badge { margin-left: 0; }
+      .head-wrap { flex-wrap: wrap; }
+      .header-hero img { height: 130px; }
     }
   </style>
 </head>
 <body>
-  <div class="bg-shapes">
-    <span></span><span></span><span></span><span></span>
-  </div>
-
   <header>
-    <div class="brand">
-      <div class="brand-main">
-        <img class="brand-logo" src="images_school/logo.png" alt="Schullogo" />
-        <div>
-          <h1>GRUMI Lernplattform &middot; Mittelschule am Sportpark</h1>
-          <small>Grund- und Mittelschule am Sportpark</small>
-        </div>
+    <div class="head-wrap">
+      <img src="images_school/logo.png" alt="Schullogo" />
+      <div>
+        <div class="brand-title">GRUMI Lernplattform &middot; Mittelschule am Sportpark</div>
+        <div class="brand-sub">Designed by Johannes Mößner</div>
       </div>
-      <div id="loginBadge" aria-live="polite">Nicht eingeloggt</div>
+      <div id="loginBadge" class="login-badge" aria-live="polite">Nicht eingeloggt</div>
+    </div>
+
+    <div class="header-hero">
+      <img src="images_school/c32580bb-787e-48f5-960d-a51efb3737fd.png" alt="Schulmotiv" />
     </div>
   </header>
 
   <main>
-    <div class="hero-section">
-      <img class="hero-img" src="images_school/c32580bb-787e-48f5-960d-a51efb3737fd.png" alt="Schule" />
-      <div class="hero-overlay">
-        <h2>Willkommen auf der Lernplattform</h2>
-        <p>Schüler-Login, einmaliger Testversuch, automatische Notenberechnung und Lehrerübersicht.</p>
-      </div>
-    </div>
+    <div class="welcome">Willkommen auf der Lernplattform</div>
 
-    <div class="content-grid">
-      <div class="card menu-card full-width">
-        <div class="card-header">
-          <div class="icon" style="background: linear-gradient(135deg, var(--pop-green), var(--pop-blue));">📚</div>
-          <h3>Menü Klassen 7-9</h3>
+    <div class="layout">
+      <section class="panel">
+        <div class="panel-head">
+          <div class="icon-box">📚</div>
+          <span>Fächer &amp; Übungen</span>
         </div>
-        <div class="card-body">
+        <div class="panel-body">
           <div class="klasse-group">
-            <button class="klasse-toggle" type="button" onclick="toggleKlasse(this)"><span class="badge">7</span> Klasse 7 <span class="arrow">▼</span></button>
+            <button class="klasse-toggle k7" type="button" onclick="toggleKlasse(this)"><span class="badge">7</span> Klasse 7 <span class="arrow">▼</span></button>
             <div class="fach-list">
               <a class="fach-link" href="fachseite.html?klasse=7&fach=Englisch">Englisch</a>
               <a class="fach-link" href="fachseite.html?klasse=7&fach=Natur-und-Technik">Natur und Technik</a>
@@ -364,8 +327,9 @@
               <a class="fach-link" href="fachseite.html?klasse=7&fach=Musik">Musik</a>
             </div>
           </div>
+
           <div class="klasse-group">
-            <button class="klasse-toggle" type="button" onclick="toggleKlasse(this)"><span class="badge">8</span> Klasse 8 <span class="arrow">▼</span></button>
+            <button class="klasse-toggle k8" type="button" onclick="toggleKlasse(this)"><span class="badge">8</span> Klasse 8 <span class="arrow">▼</span></button>
             <div class="fach-list">
               <a class="fach-link" href="fachseite.html?klasse=8&fach=Englisch">Englisch</a>
               <a class="fach-link" href="fachseite.html?klasse=8&fach=Natur-und-Technik">Natur und Technik</a>
@@ -374,8 +338,9 @@
               <a class="fach-link" href="fachseite.html?klasse=8&fach=Musik">Musik</a>
             </div>
           </div>
+
           <div class="klasse-group">
-            <button class="klasse-toggle" type="button" onclick="toggleKlasse(this)"><span class="badge">9</span> Klasse 9 <span class="arrow">▼</span></button>
+            <button class="klasse-toggle k9" type="button" onclick="toggleKlasse(this)"><span class="badge">9</span> Klasse 9 <span class="arrow">▼</span></button>
             <div class="fach-list">
               <a class="fach-link" href="9/Englisch_9/index.html">Englisch</a>
               <a class="fach-link" href="9/NT_9/%C3%BCbersicht_themen.html">Natur und Technik</a>
@@ -385,64 +350,71 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="card" id="loginCard">
-        <div class="card-header">
-          <div class="icon" style="background: linear-gradient(135deg, var(--pop-orange), var(--pop-pink));">🔐</div>
-          <h3>Login</h3>
-        </div>
-        <div class="card-body">
-          <input id="username" placeholder="Benutzername" />
-          <input id="password" type="password" placeholder="Passwort" />
-          <button onclick="login()">Einloggen</button>
-          <p id="loginMsg"></p>
-        </div>
-      </div>
+      </section>
 
-      <div class="card hidden" id="userCard">
-        <div class="card-header">
-          <div class="icon" style="background: linear-gradient(135deg, var(--pop-green), var(--pop-blue));">👤</div>
-          <h3>Angemeldet</h3>
+      <section class="panel">
+        <div class="panel-head">
+          <div class="icon-box">⚙️</div>
+          <span>Login</span>
         </div>
-        <div class="card-body">
-          <p id="meText" style="margin-bottom:10px;"></p>
-          <button class="logout-btn" onclick="logout()">Ausloggen</button>
-        </div>
-      </div>
+        <div class="panel-body">
+          
 
-      <div class="card hidden full-width" id="studentCard">
-        <div class="card-header">
-          <div class="icon" style="background: linear-gradient(135deg, var(--pop-yellow), var(--pop-orange));">🧪</div>
-          <h3>Schülerbereich</h3>
-        </div>
-        <div class="card-body">
-          <button onclick="loadTopics()">Themen laden</button>
-          <select id="topicSelect"></select>
-          <button onclick="startTest()">Test starten</button>
-          <div id="questionsWrap"></div>
-          <button id="submitBtn" class="hidden" onclick="submitTest()">Test abgeben</button>
-          <p id="studentMsg"></p>
-        </div>
-      </div>
+          <div id="loginCard">
+            <input id="username" placeholder="Benutzername" />
+            <input id="password" type="password" placeholder="Passwort" />
+            <button onclick="login()">Einloggen</button>
+            <p id="loginMsg"></p>
+          </div>
 
-      <div class="card hidden full-width" id="teacherCard">
-        <div class="card-header">
-          <div class="icon" style="background: linear-gradient(135deg, var(--pop-purple), var(--pop-pink));">📊</div>
-          <h3>Lehrerbereich</h3>
+          <div id="userCard" class="hidden">
+            <p id="meText" style="margin-bottom:10px;"></p>
+            <button class="logout-btn" onclick="logout()">Ausloggen</button>
+          </div>
+
+          <div id="studentCard" class="hidden" style="margin-top:14px;">
+            <button onclick="loadTopics()">Themen laden</button>
+            <select id="topicSelect"></select>
+            <button onclick="startTest()">Test starten</button>
+            <div id="questionsWrap"></div>
+            <button id="submitBtn" class="hidden" onclick="submitTest()">Test abgeben</button>
+            <p id="studentMsg"></p>
+          </div>
+
+          <div id="teacherCard" class="hidden" style="margin-top:14px;">
+            <button onclick="loadTeacherResults()">Ergebnisse laden</button>
+            <div id="teacherWrap"></div>
+          </div>
         </div>
-        <div class="card-body">
-          <button onclick="loadTeacherResults()">Ergebnisse laden</button>
-          <div id="teacherWrap"></div>
-        </div>
-      </div>
+      </section>
     </div>
   </main>
+
+  <footer>
+    <div class="school">Grund- und Mittelschule Unterhaching am Sportpark</div>
+    <div class="legal">
+      <a href="datenschutz.html">Datenschutz</a>
+      <a href="impressum.html">Impressum</a>
+      <a href="rechtliches.html">Sonstiges</a>
+    </div>
+  </footer>
 
   <script>
     const API = "";
     let token = localStorage.getItem("token") || "";
     let me = null;
     let currentQuestions = [];
+
+    function toggleKlasse(btn) {
+      const list = btn.nextElementSibling;
+      const isOpen = list.classList.contains("open");
+      document.querySelectorAll(".fach-list").forEach(l => l.classList.remove("open"));
+      document.querySelectorAll(".klasse-toggle").forEach(b => b.classList.remove("open"));
+      if (!isOpen) {
+        list.classList.add("open");
+        btn.classList.add("open");
+      }
+    }
 
     function setMsg(id, text, ok = false) {
       const el = document.getElementById(id);
@@ -626,30 +598,12 @@
       }
     }
 
-    
-    function toggleKlasse(btn) {
-      const list = btn.nextElementSibling;
-      const isOpen = list.classList.contains('open');
-      document.querySelectorAll('.fach-list').forEach(l => l.classList.remove('open'));
-      document.querySelectorAll('.klasse-toggle').forEach(b => b.classList.remove('open'));
-      if (!isOpen) {
-        list.classList.add('open');
-        btn.classList.add('open');
-      }
-    }
     loadMe();
   </script>
-
-  <footer>
-    <div>GRUMI Lernplattform &middot; Mittelschule am Sportpark</div>
-    <div class="legal">
-      <a href="datenschutz.html">Datenschutz</a>
-      <a href="impressum.html">Impressum</a>
-      <a href="rechtliches.html">Rechtliches</a>
-    </div>
-  </footer>
 </body>
 </html>
+
+
 
 
 
