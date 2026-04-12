@@ -3,18 +3,232 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GRUMI Test</title>
+  <title>NT Testsystem</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 40px; }
-    .box { max-width: 700px; padding: 20px; border: 1px solid #ddd; border-radius: 12px; }
+    body { font-family: Arial, sans-serif; margin: 24px; background: #f6f8fb; }
+    .card { background: #fff; border: 1px solid #ddd; border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+    h1, h2 { margin-top: 0; }
+    input, button, select { padding: 8px; margin: 4px 0; }
+    button { cursor: pointer; }
+    .hidden { display: none; }
+    .q { border-top: 1px solid #eee; padding: 10px 0; }
+    .ok { color: #0a7a2f; }
+    .err { color: #b00020; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border-bottom: 1px solid #eee; text-align: left; padding: 8px; }
   </style>
 </head>
 <body>
-  <div class="box">
-    <h1>GRUMI läuft</h1>
-    <p>Web Service funktioniert.</p>
-    <p>Nächster Schritt: Login Schüler/Lehrer + Testsystem + Notenspeicherung.</p>
+  <h1>NT Testsystem</h1>
+
+  <div class="card" id="loginCard">
+    <h2>Login</h2>
+    <input id="username" placeholder="Benutzername" />
+    <br />
+    <input id="password" type="password" placeholder="Passwort" />
+    <br />
+    <button onclick="login()">Einloggen</button>
+    <p id="loginMsg"></p>
   </div>
+
+  <div class="card hidden" id="userCard">
+    <h2>Angemeldet</h2>
+    <p id="meText"></p>
+    <button onclick="logout()">Ausloggen</button>
+  </div>
+
+  <div class="card hidden" id="studentCard">
+    <h2>Schülerbereich</h2>
+    <button onclick="loadTopics()">Themen laden</button>
+    <select id="topicSelect"></select>
+    <button onclick="startTest()">Test starten</button>
+    <div id="questionsWrap"></div>
+    <button id="submitBtn" class="hidden" onclick="submitTest()">Test abgeben</button>
+    <p id="studentMsg"></p>
+  </div>
+
+  <div class="card hidden" id="teacherCard">
+    <h2>Lehrerbereich</h2>
+    <button onclick="loadTeacherResults()">Ergebnisse laden</button>
+    <div id="teacherWrap"></div>
+  </div>
+
+  <script>
+    const API = "";
+    let token = localStorage.getItem("token") || "";
+    let me = null;
+    let currentQuestions = [];
+
+    function setMsg(id, text, ok = false) {
+      const el = document.getElementById(id);
+      el.textContent = text;
+      el.className = ok ? "ok" : "err";
+    }
+
+    async function api(path, options = {}) {
+      const headers = options.headers || {};
+      if (token) headers.Authorization = "Bearer " + token;
+      if (!headers["Content-Type"] && options.body) headers["Content-Type"] = "application/json";
+      const res = await fetch(API + path, { ...options, headers });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || "Fehler");
+      return data;
+    }
+
+    function showByRole() {
+      document.getElementById("userCard").classList.toggle("hidden", !me);
+      document.getElementById("studentCard").classList.toggle("hidden", !me || me.role !== "student");
+      document.getElementById("teacherCard").classList.toggle("hidden", !me || me.role !== "teacher");
+      document.getElementById("loginCard").classList.toggle("hidden", !!me);
+      if (me) document.getElementById("meText").textContent = `${me.username} (${me.role})`;
+    }
+
+    async function login() {
+      try {
+        const username = document.getElementById("username").value.trim();
+        const password = document.getElementById("password").value;
+        const data = await api("/api/login", {
+          method: "POST",
+          body: JSON.stringify({ username, password })
+        });
+        token = data.token;
+        me = data.user;
+        localStorage.setItem("token", token);
+        setMsg("loginMsg", "Login erfolgreich", true);
+        showByRole();
+      } catch (e) {
+        setMsg("loginMsg", e.message);
+      }
+    }
+
+    function logout() {
+      token = "";
+      me = null;
+      localStorage.removeItem("token");
+      currentQuestions = [];
+      document.getElementById("questionsWrap").innerHTML = "";
+      document.getElementById("submitBtn").classList.add("hidden");
+      showByRole();
+    }
+
+    async function loadMe() {
+      if (!token) return;
+      try {
+        const data = await api("/api/me");
+        me = data.user;
+      } catch {
+        token = "";
+        me = null;
+        localStorage.removeItem("token");
+      }
+      showByRole();
+    }
+
+    async function loadTopics() {
+      try {
+        const topics = await api("/api/topics");
+        const sel = document.getElementById("topicSelect");
+        sel.innerHTML = "";
+        for (const t of topics) {
+          const opt = document.createElement("option");
+          opt.value = t.id;
+          opt.textContent = `${t.title} (${t.subject})`;
+          sel.appendChild(opt);
+        }
+        setMsg("studentMsg", "Themen geladen", true);
+      } catch (e) {
+        setMsg("studentMsg", e.message);
+      }
+    }
+
+    async function startTest() {
+      try {
+        const topicId = Number(document.getElementById("topicSelect").value);
+        const data = await api(`/api/topics/${topicId}/questions`);
+        currentQuestions = data.questions || [];
+        const wrap = document.getElementById("questionsWrap");
+        wrap.innerHTML = "";
+
+        currentQuestions.forEach((q, i) => {
+          const div = document.createElement("div");
+          div.className = "q";
+          div.innerHTML = `
+            <p><strong>${i + 1}. ${q.question_text}</strong></p>
+            <label><input type="radio" name="q_${q.id}" value="A" checked> A) ${q.option_a}</label><br>
+            <label><input type="radio" name="q_${q.id}" value="B"> B) ${q.option_b}</label><br>
+            <label><input type="radio" name="q_${q.id}" value="C"> C) ${q.option_c}</label><br>
+            <label><input type="radio" name="q_${q.id}" value="D"> D) ${q.option_d}</label>
+          `;
+          wrap.appendChild(div);
+        });
+
+        document.getElementById("submitBtn").classList.remove("hidden");
+        setMsg("studentMsg", "Test geladen. Bitte abgeben.", true);
+      } catch (e) {
+        setMsg("studentMsg", e.message);
+      }
+    }
+
+    async function submitTest() {
+      try {
+        const topicId = Number(document.getElementById("topicSelect").value);
+        const answers = currentQuestions.map(q => {
+          const checked = document.querySelector(`input[name="q_${q.id}"]:checked`);
+          return { questionId: q.id, selectedOption: checked ? checked.value : "A" };
+        });
+
+        const data = await api(`/api/topics/${topicId}/submit`, {
+          method: "POST",
+          body: JSON.stringify({ answers })
+        });
+
+        setMsg("studentMsg", `Gespeichert: ${data.correctAnswers}/${data.totalQuestions} | ${data.percent}% | Note ${data.grade}`, true);
+        document.getElementById("submitBtn").classList.add("hidden");
+      } catch (e) {
+        setMsg("studentMsg", e.message);
+      }
+    }
+
+    async function loadTeacherResults() {
+      const wrap = document.getElementById("teacherWrap");
+      wrap.innerHTML = "";
+      try {
+        const rows = await api("/api/teacher/results");
+        if (!rows.length) {
+          wrap.innerHTML = "<p>Noch keine Ergebnisse vorhanden.</p>";
+          return;
+        }
+
+        let html = `
+          <table>
+            <thead>
+              <tr>
+                <th>Schüler</th><th>Klasse</th><th>Thema</th><th>Richtig</th><th>%</th><th>Note</th><th>Zeit</th>
+              </tr>
+            </thead>
+            <tbody>
+        `;
+        for (const r of rows) {
+          html += `
+            <tr>
+              <td>${r.student_username}</td>
+              <td>${r.class_name || ""}</td>
+              <td>${r.topic_title}</td>
+              <td>${r.correct_answers}/${r.total_questions}</td>
+              <td>${r.percent}</td>
+              <td>${r.grade}</td>
+              <td>${new Date(r.finished_at).toLocaleString("de-DE")}</td>
+            </tr>
+          `;
+        }
+        html += "</tbody></table>";
+        wrap.innerHTML = html;
+      } catch (e) {
+        wrap.innerHTML = `<p class="err">${e.message}</p>`;
+      }
+    }
+
+    loadMe();
+  </script>
 </body>
 </html>
-
