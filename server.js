@@ -41,7 +41,10 @@ app.post("/api/login", async (req, res) => {
 
     const user = q.rows[0];
     const ok = await bcrypt.compare(password, user.password_hash);
-    if (!ok) return res.status(401).json({ error: "Ungültige Daten" });
+
+    if (!ok) {
+      return res.status(401).json({ error: "Ungültige Daten" });
+    }
 
     const token = jwt.sign(
       { id: user.id, username: user.username, role: user.role },
@@ -51,4 +54,17 @@ app.post("/api/login", async (req, res) => {
 
     res.json({
       token,
-      user: { id: user.id, username: user.username, role
+      user: { id: user.id, username: user.username, role: user.role }
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
