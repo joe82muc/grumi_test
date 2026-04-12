@@ -8,6 +8,7 @@ const jwt = require("jsonwebtoken");
 const app = express();
 const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET || "dev-secret-change-me";
+const QUIZ_QUESTION_COUNT = 20;
 
 app.use(cors());
 app.use(express.json());
@@ -47,29 +48,6 @@ function requireRole(role) {
     }
     next();
   };
-}
-
-async function seedQuestionsForTopic(topicId) {
-  const exists = await pool.query("SELECT COUNT(*)::int AS c FROM questions WHERE topic_id = $1", [topicId]);
-  if (exists.rows[0].c >= 30) return;
-
-  // Platzhalter-Fragen (30 Stück). Du kannst sie später durch echte C14-Fragen ersetzen.
-  for (let i = 1; i <= 30; i += 1) {
-    await pool.query(
-      `INSERT INTO questions
-        (topic_id, question_text, option_a, option_b, option_c, option_d, correct_option)
-       VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-      [
-        topicId,
-        `C14 Frage ${i}: Welche Aussage ist richtig?`,
-        "Aussage A",
-        "Aussage B",
-        "Aussage C",
-        "Aussage D",
-        "A"
-      ]
-    );
-  }
 }
 
 async function initDb() {
@@ -131,42 +109,22 @@ async function initDb() {
   `);
 
   await pool.query(`
-    INSERT INTO topics (title, subject)
-    SELECT 'C14 Methode', 'NT'
-    WHERE NOT EXISTS (
-      SELECT 1 FROM topics WHERE title = 'C14 Methode' AND subject = 'NT'
-    );
-  `);
+    INSERT INTO users (username, password_hash, role, class_name)
+    SELECT 'lehrer', $1, 'teacher', '9M'
+    WHERE NOT EXISTS (SELECT 1 FROM users WHERE username='lehrer')
+  `, [await bcrypt.hash("Lehrer123!", 10)]);
 
-  const topic = await pool.query(
-    "SELECT id FROM topics WHERE title = 'C14 Methode' AND subject = 'NT' LIMIT 1"
-  );
-  await seedQuestionsForTopic(topic.rows[0].id);
+  await pool.query(`
+    INSERT INTO users (username, password_hash, role, class_name)
+    SELECT 's1', $1, 'student', '9M'
+    WHERE NOT EXISTS (SELECT 1 FROM users WHERE username='s1')
+  `, [await bcrypt.hash("Schueler1!", 10)]);
 
-  const teacherHash = await bcrypt.hash("Lehrer123!", 10);
-  const s1Hash = await bcrypt.hash("Schueler1!", 10);
-  const s2Hash = await bcrypt.hash("Schueler2!", 10);
-
-  await pool.query(
-    `INSERT INTO users (username, password_hash, role, class_name)
-     VALUES ($1, $2, 'teacher', '9M')
-     ON CONFLICT (username) DO NOTHING`,
-    ["lehrer", teacherHash]
-  );
-
-  await pool.query(
-    `INSERT INTO users (username, password_hash, role, class_name)
-     VALUES ($1, $2, 'student', '9M')
-     ON CONFLICT (username) DO NOTHING`,
-    ["s1", s1Hash]
-  );
-
-  await pool.query(
-    `INSERT INTO users (username, password_hash, role, class_name)
-     VALUES ($1, $2, 'student', '9M')
-     ON CONFLICT (username) DO NOTHING`,
-    ["s2", s2Hash]
-  );
+  await pool.query(`
+    INSERT INTO users (username, password_hash, role, class_name)
+    SELECT 's2', $1, 'student', '9M'
+    WHERE NOT EXISTS (SELECT 1 FROM users WHERE username='s2')
+  `, [await bcrypt.hash("Schueler2!", 10)]);
 }
 
 app.get("/health", async (req, res) => {
@@ -181,7 +139,9 @@ app.get("/health", async (req, res) => {
 app.post("/api/login", async (req, res) => {
   try {
     const { username, password } = req.body;
-    if (!username || !password) return res.status(400).json({ error: "username und password erforderlich" });
+    if (!username || !password) {
+      return res.status(400).json({ error: "username und password erforderlich" });
+    }
 
     const q = await pool.query(
       "SELECT id, username, role, password_hash FROM users WHERE username = $1",
@@ -241,8 +201,8 @@ app.get("/api/topics/:topicId/questions", auth, async (req, res) => {
        FROM questions
        WHERE topic_id = $1
        ORDER BY id
-       LIMIT 30`,
-      [topicId]
+       LIMIT $2`,
+      [topicId, QUIZ_QUESTION_COUNT]
     );
 
     res.json({ topicId, questions: q.rows });
@@ -271,12 +231,14 @@ app.post("/api/topics/:topicId/submit", auth, requireRole("student"), async (req
        FROM questions
        WHERE topic_id = $1
        ORDER BY id
-       LIMIT 30`,
-      [topicId]
+       LIMIT $2`,
+      [topicId, QUIZ_QUESTION_COUNT]
     );
 
-    if (q.rows.length !== 30) {
-      return res.status(400).json({ error: "Für dieses Thema sind keine 30 Fragen hinterlegt" });
+    if (q.rows.length !== QUIZ_QUESTION_COUNT) {
+      return res.status(400).json({
+        error: `Für dieses Thema sind keine ${QUIZ_QUESTION_COUNT} Fragen hinterlegt`
+      });
     }
 
     const answerMap = new Map();
