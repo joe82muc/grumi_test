@@ -1,0 +1,72 @@
+﻿<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Impressum</title>
+  <style>
+    body { margin: 0; font-family: "Trebuchet MS", "Segoe UI", sans-serif; background: linear-gradient(130deg, #f4f8ff, #fff1de); color: #10203a; }
+    .wrap { max-width: 1000px; margin: 0 auto; padding: 1rem; }
+    .hero { background: linear-gradient(130deg, #0556b6, #1f7de2 52%, #ff8c42); color: #fff; border-radius: 20px; padding: 1.1rem; }
+    .card { margin-top: 1rem; background: #fff; border: 1px solid #d7e3ff; border-radius: 16px; padding: 1rem; }
+    a { color: #0e3c79; font-weight: 700; text-decoration: none; }
+    h1, h2 { margin: 0 0 0.5rem; }
+    p, li { margin: 0.35rem 0; line-height: 1.45; }
+  </style>
+<style id="global-nav-style">
+.global-nav{position:sticky;top:0;z-index:9999;display:flex;gap:10px;align-items:center;padding:10px 14px;background:rgba(12,58,109,.92);backdrop-filter:blur(5px);border-bottom:1px solid rgba(255,255,255,.22)}
+.global-nav a,.global-nav button{appearance:none;border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.12);color:#fff;padding:8px 14px;border-radius:999px;font:700 14px/1.1 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;cursor:pointer;text-decoration:none}
+.global-nav a:hover,.global-nav button:hover{background:rgba(255,255,255,.24)}
+.global-nav .spacer{margin-left:auto;color:#e4f0ff;font:600 12px/1.2 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;opacity:.9}
+@media (max-width:640px){.global-nav{padding:8px 10px;gap:8px}.global-nav a,.global-nav button{padding:7px 11px;font-size:13px}.global-nav .spacer{display:none}}
+</style>
+<script src="https://joe82muc.github.io/grumi/js/site-auth.js" data-grumi-auth="required"></script>
+</head>
+<body>
+<div class="global-nav" id="global-nav">
+  <a id="globalNavHome" href="#">Home</a>
+  <button id="globalNavBack" type="button">Zurück</button>
+  <div class="spacer">Englisch 9</div>
+</div>
+  <main class="wrap">
+    <section class="hero">
+      <h1>Impressum</h1>
+      <p>Angaben gemäß § 5 DDG</p>
+    </section>
+
+    <section class="card">
+      <h2>Verantwortliche Stelle</h2>
+      <p>Mittelschule am Sportpark</p>
+      <p>Anton-Troppmann-Weg 1</p>
+      <p>82008 Unterhaching</p>
+      <p>Bundesland: Bayern</p>
+      <p>Verantwortlich für den Inhalt: Johannes Mößner, Lehrkraft</p>
+      <p>Kontakt: über Schulsekretariat / Schulverwaltung</p>
+    </section>
+
+    <section class="card">
+      <h2>Projekt-Hinweis</h2>
+      <p>Diese Lernplattform ist ein schulisches Unterrichtsprojekt (Englisch 9. Klasse).</p>
+      <p>Ein Teil der unterstützenden Texte und Funktionen wird KI-gestützt über ein Backend bereitgestellt.</p>
+      <p>Im Hintergrund kann dafür der Dienst Anthropic genutzt werden.</p>
+    </section>
+  </main>
+<script id="global-nav-script">
+(function(){
+  function homeUrl(){
+    var href=String(window.location.href||'');
+    if(href.indexOf('/grumi/9/Englisch_9/')>-1){ return href.split('/grumi/9/Englisch_9/')[0]+'/grumi/9/Englisch_9/index.html'; }
+    if(href.indexOf('/Apps_verbessert/')>-1){ return href.split('/Apps_verbessert/')[0]+'/Apps_verbessert/index.html'; }
+    if(href.indexOf('/Apps/')>-1){ return href.split('/Apps/')[0]+'/Apps/index.html'; }
+    return 'index.html';
+  }
+  var home=document.getElementById('globalNavHome');
+  var back=document.getElementById('globalNavBack');
+  if(home){ home.setAttribute('href', homeUrl()); }
+  if(back){ back.addEventListener('click', function(){ if(window.history.length>1){ window.history.back(); } else { window.location.href=homeUrl(); } }); }
+})();
+</script>
+</body>
+</html>
+
+
