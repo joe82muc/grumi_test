@@ -330,7 +330,7 @@
       <div class="brand-main">
         <img class="brand-logo" src="images_school/logo.png" alt="Schullogo" />
         <div>
-          <h1>GRUMI NT Testsystem</h1>
+          <h1>GRUMI Lernplattform &middot; Mittelschule am Sportpark</h1>
           <small>Grund- und Mittelschule am Sportpark</small>
         </div>
       </div>
@@ -342,12 +342,50 @@
     <div class="hero-section">
       <img class="hero-img" src="images_school/c32580bb-787e-48f5-960d-a51efb3737fd.png" alt="Schule" />
       <div class="hero-overlay">
-        <h2>NT Leistungstest</h2>
+        <h2>Willkommen auf der Lernplattform</h2>
         <p>Schüler-Login, einmaliger Testversuch, automatische Notenberechnung und Lehrerübersicht.</p>
       </div>
     </div>
 
     <div class="content-grid">
+      <div class="card menu-card full-width">
+        <div class="card-header">
+          <div class="icon" style="background: linear-gradient(135deg, var(--pop-green), var(--pop-blue));">📚</div>
+          <h3>Menü Klassen 7-9</h3>
+        </div>
+        <div class="card-body">
+          <div class="klasse-group">
+            <button class="klasse-toggle" type="button" onclick="toggleKlasse(this)"><span class="badge">7</span> Klasse 7 <span class="arrow">▼</span></button>
+            <div class="fach-list">
+              <a class="fach-link" href="fachseite.html?klasse=7&fach=Englisch">Englisch</a>
+              <a class="fach-link" href="fachseite.html?klasse=7&fach=Natur-und-Technik">Natur und Technik</a>
+              <a class="fach-link" href="fachseite.html?klasse=7&fach=GPG">GPG</a>
+              <a class="fach-link" href="fachseite.html?klasse=7&fach=WiB">Wirtschaft und Beruf</a>
+              <a class="fach-link" href="fachseite.html?klasse=7&fach=Musik">Musik</a>
+            </div>
+          </div>
+          <div class="klasse-group">
+            <button class="klasse-toggle" type="button" onclick="toggleKlasse(this)"><span class="badge">8</span> Klasse 8 <span class="arrow">▼</span></button>
+            <div class="fach-list">
+              <a class="fach-link" href="fachseite.html?klasse=8&fach=Englisch">Englisch</a>
+              <a class="fach-link" href="fachseite.html?klasse=8&fach=Natur-und-Technik">Natur und Technik</a>
+              <a class="fach-link" href="fachseite.html?klasse=8&fach=GPG">GPG</a>
+              <a class="fach-link" href="fachseite.html?klasse=8&fach=WiB">Wirtschaft und Beruf</a>
+              <a class="fach-link" href="fachseite.html?klasse=8&fach=Musik">Musik</a>
+            </div>
+          </div>
+          <div class="klasse-group">
+            <button class="klasse-toggle" type="button" onclick="toggleKlasse(this)"><span class="badge">9</span> Klasse 9 <span class="arrow">▼</span></button>
+            <div class="fach-list">
+              <a class="fach-link" href="9/Englisch_9/index.html">Englisch</a>
+              <a class="fach-link" href="9/NT_9/%C3%BCbersicht_themen.html">Natur und Technik</a>
+              <a class="fach-link" href="fachseite.html?klasse=9&fach=GPG">GPG</a>
+              <a class="fach-link" href="9/WiB_9/index.html">Wirtschaft und Beruf</a>
+              <a class="fach-link" href="fachseite.html?klasse=9&fach=Musik">Musik</a>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="card" id="loginCard">
         <div class="card-header">
           <div class="icon" style="background: linear-gradient(135deg, var(--pop-orange), var(--pop-pink));">🔐</div>
@@ -588,7 +626,30 @@
       }
     }
 
+    
+    function toggleKlasse(btn) {
+      const list = btn.nextElementSibling;
+      const isOpen = list.classList.contains('open');
+      document.querySelectorAll('.fach-list').forEach(l => l.classList.remove('open'));
+      document.querySelectorAll('.klasse-toggle').forEach(b => b.classList.remove('open'));
+      if (!isOpen) {
+        list.classList.add('open');
+        btn.classList.add('open');
+      }
+    }
     loadMe();
   </script>
+
+  <footer>
+    <div>GRUMI Lernplattform &middot; Mittelschule am Sportpark</div>
+    <div class="legal">
+      <a href="datenschutz.html">Datenschutz</a>
+      <a href="impressum.html">Impressum</a>
+      <a href="rechtliches.html">Rechtliches</a>
+    </div>
+  </footer>
 </body>
 </html>
+
+
+

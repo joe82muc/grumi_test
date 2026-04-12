@@ -3,86 +3,73 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Datenschutz</title>
+  <title>Datenschutz | GRUMI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body { margin: 0; font-family: "Trebuchet MS", "Segoe UI", sans-serif; background: linear-gradient(130deg, #f4f8ff, #fff1de); color: #10203a; }
-    .wrap { max-width: 1000px; margin: 0 auto; padding: 1rem; }
-    .hero { background: linear-gradient(130deg, #0556b6, #1f7de2 52%, #ff8c42); color: #fff; border-radius: 20px; padding: 1.1rem; }
-    .card { margin-top: 1rem; background: #fff; border: 1px solid #d7e3ff; border-radius: 16px; padding: 1rem; }
-    a { color: #0e3c79; font-weight: 700; text-decoration: none; }
-    h1, h2 { margin: 0 0 0.5rem; }
-    p, li { margin: 0.35rem 0; line-height: 1.45; }
+    :root{--pop-yellow:#FFE135;--pop-pink:#FF4081;--pop-blue:#2196F3;--pop-green:#00E676;--pop-orange:#FF9100;--bg-dark:#1a1a2e;--bg-card:#16213e;--bg-card-alt:#0f3460;--text-light:#f0f0f0;--text-muted:#a0b0c0;--radius:18px;--shadow:0 8px 32px rgba(0,0,0,.3)}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Nunito',sans-serif;background:var(--bg-dark);color:var(--text-light);min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle at 10% 20%, rgba(255,64,129,.12) 0%, transparent 50%),radial-gradient(circle at 80% 60%, rgba(33,150,243,.12) 0%, transparent 50%);z-index:0;pointer-events:none}
+    header{position:relative;z-index:10;background:linear-gradient(135deg,var(--bg-card) 0%,var(--bg-card-alt) 100%);border-bottom:3px solid;border-image:linear-gradient(90deg,var(--pop-pink),var(--pop-yellow),var(--pop-green),var(--pop-blue)) 1;padding:14px 24px}
+    .brand{display:flex;align-items:center;gap:14px;max-width:1100px;margin:0 auto}
+    .brand img{height:50px;width:auto}
+    .brand h1{font-family:'Fredoka',sans-serif;font-size:clamp(.95rem,2vw,1.2rem);font-weight:700;background:linear-gradient(90deg,var(--pop-yellow),var(--pop-orange),var(--pop-pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    main{position:relative;z-index:5;max-width:1100px;margin:0 auto;padding:24px 20px 36px}
+    .hero{background:linear-gradient(135deg,var(--bg-card-alt),var(--bg-card));border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:14px}
+    .hero h2{font-family:'Fredoka',sans-serif;font-size:clamp(1.3rem,3vw,1.9rem);margin-bottom:5px}
+    .hero p{color:var(--text-muted)}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .btn{display:inline-block;padding:9px 13px;border-radius:10px;text-decoration:none;color:#fff;background:linear-gradient(135deg,var(--pop-blue),#6a5cff);font-weight:700;font-size:.88rem}
+    .card{margin-top:12px;background:var(--bg-card);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px;box-shadow:var(--shadow)}
+    .card h2{margin:0 0 .5rem;color:var(--pop-yellow);font-family:'Fredoka',sans-serif}
+    .card p,.card li{line-height:1.6}
+    .card ul{padding-left:20px}
+    footer{position:relative;z-index:10;text-align:center;padding:24px;color:var(--text-muted);border-top:1px solid rgba(255,255,255,.08);margin-top:14px}
+    footer .legal{margin-top:8px;display:flex;justify-content:center;gap:16px;flex-wrap:wrap}
+    footer a{color:var(--text-muted);text-decoration:none}
+    footer a:hover{color:var(--pop-yellow)}
   </style>
-<style id="global-nav-style">
-.global-nav{position:sticky;top:0;z-index:9999;display:flex;gap:10px;align-items:center;padding:10px 14px;background:rgba(12,58,109,.92);backdrop-filter:blur(5px);border-bottom:1px solid rgba(255,255,255,.22)}
-.global-nav a,.global-nav button{appearance:none;border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.12);color:#fff;padding:8px 14px;border-radius:999px;font:700 14px/1.1 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;cursor:pointer;text-decoration:none}
-.global-nav a:hover,.global-nav button:hover{background:rgba(255,255,255,.24)}
-.global-nav .spacer{margin-left:auto;color:#e4f0ff;font:600 12px/1.2 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;opacity:.9}
-@media (max-width:640px){.global-nav{padding:8px 10px;gap:8px}.global-nav a,.global-nav button{padding:7px 11px;font-size:13px}.global-nav .spacer{display:none}}
-</style>
-<script src="https://joe82muc.github.io/grumi/js/site-auth.js" data-grumi-auth="required"></script>
 </head>
 <body>
-<div class="global-nav" id="global-nav">
-  <a id="globalNavHome" href="#">Home</a>
-  <button id="globalNavBack" type="button">Zurück</button>
-  <div class="spacer">Englisch 9</div>
-</div>
-  <main class="wrap">
+  <header>
+    <div class="brand">
+      <img src="images_school/logo.png" alt="Schullogo">
+      <h1>GRUMI Lernplattform &middot; Mittelschule am Sportpark</h1>
+    </div>
+  </header>
+
+  <main>
     <section class="hero">
-      <h1>Datenschutz</h1>
-      <p>Informationen nach DSGVO (Art. 13)</p>
+      <h2>Datenschutz</h2>
+      <p>Informationen nach DSGVO (Art. 13).</p>
+      <div class="actions"><a class="btn" href="index.html">Zur Startseite</a></div>
     </section>
 
     <section class="card">
       <h2>Verantwortlich</h2>
-      <p>Mittelschule am Sportpark, Anton-Troppmann-Weg 1, 82008 Unterhaching</p>
-      <p>Ansprechpartner: Johannes Mößner (Lehrkraft)</p>
+      <p>Mittelschule am Sportpark, Anton-Troppmann-Weg 1, 82008 Unterhaching.</p>
+      <p>Ansprechpartner: Johannes Moessner (Lehrkraft).</p>
     </section>
 
     <section class="card">
       <h2>Verarbeitungszwecke</h2>
       <ul>
-        <li>Bereitstellung von Lerninhalten für den Englischunterricht (9. Klasse).</li>
-        <li>Technisch notwendige Verarbeitung für Betrieb, Stabilität und Sicherheit der Website.</li>
-        <li>Optional: KI-gestützte Hilfen/Korrekturen in einzelnen Übungen.</li>
+        <li>Bereitstellung von Lerninhalten fuer den Unterricht.</li>
+        <li>Technisch notwendige Verarbeitung fuer Betrieb und Sicherheit.</li>
+        <li>Speicherung von Testergebnissen im schulischen Kontext.</li>
       </ul>
-    </section>
-
-    <section class="card">
-      <h2>KI-Funktionen (Anthropic im Hintergrund)</h2>
-      <ul>
-        <li>Wenn KI-Hilfe genutzt wird, werden Eingaben an das schulische Backend gesendet.</li>
-        <li>Das Backend kann zur Antworterzeugung den KI-Dienst Anthropic verwenden.</li>
-        <li>Bitte keine sensiblen personenbezogenen Daten in freie Texteingaben eintragen.</li>
-      </ul>
-    </section>
-
-    <section class="card">
-      <h2>Speicherdauer und Rechte</h2>
-      <ul>
-        <li>Es werden nur erforderliche technische Daten verarbeitet.</li>
-        <li>Sie haben das Recht auf Auskunft, Berichtigung, Löschung und Beschwerde bei der zuständigen Aufsichtsbehörde.</li>
-      </ul>
-      <p>Bei Rückfragen bitte über die Schulverwaltung Kontakt aufnehmen.</p>
     </section>
   </main>
-<script id="global-nav-script">
-(function(){
-  function homeUrl(){
-    var href=String(window.location.href||'');
-    if(href.indexOf('/grumi/9/Englisch_9/')>-1){ return href.split('/grumi/9/Englisch_9/')[0]+'/grumi/9/Englisch_9/index.html'; }
-    if(href.indexOf('/Apps_verbessert/')>-1){ return href.split('/Apps_verbessert/')[0]+'/Apps_verbessert/index.html'; }
-    if(href.indexOf('/Apps/')>-1){ return href.split('/Apps/')[0]+'/Apps/index.html'; }
-    return 'index.html';
-  }
-  var home=document.getElementById('globalNavHome');
-  var back=document.getElementById('globalNavBack');
-  if(home){ home.setAttribute('href', homeUrl()); }
-  if(back){ back.addEventListener('click', function(){ if(window.history.length>1){ window.history.back(); } else { window.location.href=homeUrl(); } }); }
-})();
-</script>
+
+  <footer>
+    <div>GRUMI Lernplattform &middot; Mittelschule am Sportpark</div>
+    <div class="legal">
+      <a href="datenschutz.html">Datenschutz</a>
+      <a href="impressum.html">Impressum</a>
+      <a href="rechtliches.html">Rechtliches</a>
+    </div>
+  </footer>
 </body>
 </html>
-
-
