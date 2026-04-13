@@ -343,7 +343,7 @@
             <button class="klasse-toggle k9" type="button" onclick="toggleKlasse(this)"><span class="badge">9</span> Klasse 9 <span class="arrow">▼</span></button>
             <div class="fach-list">
               <a class="fach-link" href="9/Englisch_9/index.html">Englisch</a>
-              <a class="fach-link" href="9/NT_9/%C3%BCbersicht_themen.html">Natur und Technik</a>
+              <a class="fach-link" href="9/NT_9/übersicht_themen.html">Natur und Technik</a>
               <a class="fach-link" href="fachseite.html?klasse=9&fach=GPG">GPG</a>
               <a class="fach-link" href="9/WiB_9/index.html">Wirtschaft und Beruf</a>
               <a class="fach-link" href="fachseite.html?klasse=9&fach=Musik">Musik</a>
@@ -513,27 +513,22 @@
 
     async function startTest() {
       try {
-        const topicId = Number(document.getElementById("topicSelect").value);
-        const data = await api(`/api/topics/${topicId}/questions`);
-        currentQuestions = data.questions || [];
-        const wrap = document.getElementById("questionsWrap");
-        wrap.innerHTML = "";
+        const sel = document.getElementById("topicSelect");
+        const topicId = Number(sel.value);
+        const topicLabel = (sel.options[sel.selectedIndex]?.textContent || "").toLowerCase();
 
-        currentQuestions.forEach((q, i) => {
-          const div = document.createElement("div");
-          div.className = "q";
-          div.innerHTML = `
-            <p><strong>${i + 1}. ${q.question_text}</strong></p>
-            <label><input type="radio" name="q_${q.id}" value="A" checked> A) ${q.option_a}</label>
-            <label><input type="radio" name="q_${q.id}" value="B"> B) ${q.option_b}</label>
-            <label><input type="radio" name="q_${q.id}" value="C"> C) ${q.option_c}</label>
-            <label><input type="radio" name="q_${q.id}" value="D"> D) ${q.option_d}</label>
-          `;
-          wrap.appendChild(div);
-        });
+        if (!topicId) {
+          setMsg("studentMsg", "Bitte zuerst ein Thema wählen.");
+          return;
+        }
 
-        document.getElementById("submitBtn").classList.remove("hidden");
-        setMsg("studentMsg", "Test geladen. Bitte abgeben.", true);
+        if (topicLabel.includes("radioaktivit")) {
+          const target = `9/NT_9/App3_Radioaktivit%C3%A4t%20und%20ihr%20Nachweis/test_radioaktivitaet_und_ihr_nachweis.html?topicId=${encodeURIComponent(topicId)}`;
+          window.location.href = target;
+          return;
+        }
+
+        setMsg("studentMsg", "Für dieses Thema ist noch keine eigene Testseite hinterlegt.");
       } catch (e) {
         setMsg("studentMsg", e.message);
       }
