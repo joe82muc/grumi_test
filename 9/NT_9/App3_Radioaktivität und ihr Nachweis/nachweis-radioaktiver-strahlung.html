@@ -1,0 +1,411 @@
+﻿<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wie kann man Radioaktivität nachweisen? | NT Quali 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #181818;
+      --bg-card: #222222;
+      --gold: #f0a030;
+      --gold-dim: #c4842a;
+      --gold-glow: rgba(240,160,48,.15);
+      --text: #e8e0d4;
+      --text-muted: #a09888;
+      --radius: 12px;
+      --shadow: 0 4px 24px rgba(0,0,0,.45);
+      --font-display: 'Outfit', sans-serif;
+      --font-body: 'Crimson Pro', Georgia, serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    .site-header {
+      background: linear-gradient(135deg, #1a1a1a 0%, #222 100%);
+      border-bottom: 3px solid var(--gold);
+      padding: 2rem 2rem 1.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .site-header::before {
+      content: '';
+      position: absolute;
+      top: -60%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, var(--gold-glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .brand-kicker {
+      font-family: var(--font-display);
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: .3rem;
+    }
+    .site-header h1 {
+      font-family: var(--font-display);
+      font-size: clamp(1.2rem, 3.5vw, 1.9rem);
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.25;
+    }
+    .subtitle {
+      font-size: .9rem;
+      color: var(--text-muted);
+      margin-top: .3rem;
+    }
+    .main-nav {
+      display: flex;
+      justify-content: center;
+      gap: .8rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+    .main-nav a {
+      font-family: var(--font-display);
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--gold);
+      text-decoration: none;
+      padding: .4rem 1rem;
+      border: 1.5px solid var(--gold-dim);
+      border-radius: 100px;
+      transition: all .25s;
+    }
+    .main-nav a:hover {
+      background: var(--gold);
+      color: var(--bg);
+    }
+
+    .detail-main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+    .detail-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 2rem 2rem 2.5rem;
+    }
+    .btn {
+      font-family: var(--font-display);
+      font-size: .82rem;
+      font-weight: 600;
+      padding: .5rem 1.1rem;
+      border-radius: 100px;
+      text-decoration: none;
+      display: inline-block;
+      transition: all .25s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn.ghost {
+      background: transparent;
+      color: var(--gold);
+      border: 1.5px solid var(--gold-dim);
+    }
+    .btn.ghost:hover {
+      background: var(--gold);
+      color: var(--bg);
+    }
+
+    .flow-section {
+      margin-bottom: 2.2rem;
+      overflow: hidden;
+    }
+    .flow-section h2 {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: .8rem;
+      padding-bottom: .4rem;
+      border-bottom: 2px solid var(--gold-dim);
+    }
+    .flow-section p {
+      font-size: 1.05rem;
+      margin-bottom: .8rem;
+    }
+
+    .flow-image {
+      margin-bottom: 1rem;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(0,0,0,.4);
+      border: 1px solid #333;
+    }
+    .flow-image.right {
+      float: right;
+      margin-left: 1.5rem;
+      max-width: 320px;
+    }
+    .flow-image.left {
+      float: left;
+      margin-right: 1.5rem;
+      max-width: 320px;
+    }
+    .flow-image.compact { max-width: 280px; }
+    .flow-image img {
+      width: 100%;
+      display: block;
+    }
+    .flow-image figcaption {
+      font-family: var(--font-display);
+      font-size: .78rem;
+      color: var(--text-muted);
+      padding: .5rem .8rem;
+      background: #1a1a1a;
+      text-align: center;
+    }
+
+    .g {
+      position: relative;
+      display: inline-block;
+      color: var(--gold);
+      border-bottom: 1px dashed var(--gold-dim);
+      cursor: help;
+      font-weight: 600;
+    }
+    .tip {
+      display: none;
+      position: absolute;
+      left: 0;
+      top: calc(100% + 8px);
+      min-width: 220px;
+      max-width: 320px;
+      background: #141414;
+      color: var(--text);
+      border: 1px solid var(--gold-dim);
+      border-radius: 10px;
+      padding: .55rem .65rem;
+      line-height: 1.35;
+      font-size: .88rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,.45);
+      z-index: 50;
+      font-weight: 400;
+    }
+    .g:hover .tip,
+    .g:focus .tip,
+    .g:focus-within .tip {
+      display: block;
+    }
+ {
+      .detail-card { padding: 1.2rem 1rem 2rem; }
+      .flow-image.right, .flow-image.left {
+        float: none;
+        max-width: 100%;
+        margin: 0 0 1rem 0;
+      }
+    }
+  
+    .zoomable-img {
+      cursor: zoom-in;
+      transition: transform .2s ease;
+    }
+    .zoomable-img:hover {
+      transform: scale(1.02);
+    }
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.88);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      z-index: 9999;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox-inner {
+      max-width: 96vw;
+      max-height: 96vh;
+      text-align: center;
+    }
+    .lightbox img {
+      max-width: 96vw;
+      max-height: 84vh;
+      border-radius: 10px;
+      border: 1px solid #555;
+      box-shadow: 0 12px 40px rgba(0,0,0,.5);
+    }
+    .lightbox-caption {
+      margin-top: .55rem;
+      color: #e8e0d4;
+      font-family: var(--font-display);
+      font-size: .9rem;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 10px;
+      right: 14px;
+      background: transparent;
+      border: 0;
+      color: #fff;
+      font-size: 2rem;
+      line-height: 1;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand-wrap">
+      <p class="brand-kicker">Mittelschule am Sportpark</p>
+      <h1>Gruppenarbeit 2: Wie kann man Radioaktivität nachweisen?</h1>
+    </div>
+        <nav class="main-nav" aria-label="Navigation">
+      <a href="uebersich_gruppenarbeit.html">Zur Übersicht</a>
+      <a href="arbeitsauftraege-text2.html">Arbeitsaufträge Gruppe 2</a>
+      <a href="quiz.html">Quiz</a>
+    </nav>
+  </header>
+
+  <main class="detail-main">
+    <section class="detail-card">
+
+      <div class="flow-section">
+        <h2>Unsichtbare Strahlung - ein Problem für die Forschung</h2>
+        <p>Radioaktive Strahlung kann man mit den menschlichen Sinnen nicht wahrnehmen. Wir können sie weder sehen noch hören oder fühlen. Deshalb standen Wissenschaftler vor der Herausforderung, Methoden zu entwickeln, mit denen man diese unsichtbare Strahlung trotzdem erkennen kann.</p>
+        <p>Die Lösung besteht darin, nicht die Strahlung selbst zu beobachten, sondern ihre Wirkung auf Materialien oder Geräte zu nutzen. Dadurch kann man indirekt nachweisen, dass Strahlung vorhanden ist.</p>
+      </div>
+
+      <div class="flow-section">
+        <h2><span class="g" tabindex="0">Fotopapier/Fotoplatte<span class="tip">Lichtempfindliches Material, das sich durch Strahlung verfärben bzw. schwärzen kann.</span></span> - Strahlung wirkt wie Licht</h2>
+        <figure class="flow-image right compact">
+          <img src="images/fotoplatten_ki.png" alt="Fotoplatte" />
+          <figcaption>Abb. 1: Fotoplatte – radioaktive Strahlung schwärzt das Material</figcaption>
+        </figure>
+        <p>Abb. 1 zeigt auf der Fotoplatte dunkle Flecken. Diese entstehen, weil radioaktive Strahlung ähnlich wie Licht wirkt und das Material verändert. Selbst wenn das Fotopapier lichtdicht verpackt ist, kann die Strahlung durch das Papier hindurchdringen und es schwärzen.</p>
+        <p>Dieses Experiment zeigt, dass radioaktive Strahlung Energie besitzt und Materie beeinflussen kann. Es war auch die Grundlage für die Entdeckung der Radioaktivität durch Becquerel.</p>
+      </div>
+
+      <div class="flow-section">
+        <h2><span class="g" tabindex="0">Nebelkammer<span class="tip">Gerät, in dem geladene Teilchen sichtbare Spuren als feine Nebellinien hinterlassen.</span></span> - Strahlung wird sichtbar</h2>
+        <figure class="flow-image left compact">
+          <img src="images/nebelkammer_ki.png" alt="Kleine Nebelkammer für schulische Zwecke" />
+          <figcaption>Abb. 2: Kleine Nebelkammer für schulische Zwecke</figcaption>
+        </figure>
+        <p>Abb. 2, Abb. 3 und Abb. 4 zeigen in der Nebelkammer viele feine Linien. Diese Linien sind die Spuren der Strahlung. Sie entstehen, weil die Strahlung Teilchen in der Luft beeinflusst, sodass kleine Tröpfchen entstehen, die man sehen kann.</p>
+      </div>
+
+      <div class="flow-section">
+        <figure class="flow-image right compact">
+          <img class="zoomable-img" src="images/Kondensationsspuren%20in%20einer%20Nebelkammer_ki.png" alt="Kondensationsspuren in einer Nebelkammer" data-zoom-caption="Abb. 3: Kondensationsspuren in einer Nebelkammer" />
+          <figcaption>Abb. 3: Kondensationsspuren in einer Nebelkammer</figcaption>
+        </figure>
+        <p>Die Linien erinnern an Kondensstreifen von Flugzeugen. Manche verlaufen gerade, andere sind gekrümmt oder verzweigt. Das zeigt, dass es verschiedene Arten von Strahlung gibt, die sich unterschiedlich bewegen.</p>
+      </div>
+
+      <div class="flow-section">
+        <figure class="flow-image left compact">
+          <img class="zoomable-img" src="images/Experimentelle%20Physik_%20Alpha-Teilchen%20Nachweis_ki.png" alt="Teilchenspuren in einer Nebelkammer" data-zoom-caption="Abb. 4: Teilchenspuren in der Nebelkammer" />
+          <figcaption>Abb. 4: Teilchenspuren in der Nebelkammer</figcaption>
+        </figure>
+        <p>Die Nebelkammer macht also etwas Unsichtbares sichtbar. Auf dem Bild siehst du viele feine Linien. Diese Linien nennt man <strong>Teilchenspuren</strong>: Sie zeigen den Weg einzelner Strahlungsteilchen durch die Kammer.</p>
+        <p><strong>Kondensationsspuren</strong> sind kleine Nebellinien aus winzigen Tröpfchen. Sie entstehen, weil die Teilchen die Luft in der Kammer verändern. <strong>Alpha-Teilchen</strong> sind eine Art von Strahlungsteilchen; sie hinterlassen meist eher kurze, deutlich sichtbare Spuren.</p>
+      </div>
+
+      <div class="flow-section">
+        <h2><span class="g" tabindex="0">Geiger-Müller-Zähler<span class="tip">Messgerät, das radioaktive Strahlung über elektrische Signale (Klicks) nachweist.</span></span> - Strahlung messen</h2>
+        <figure class="flow-image right compact">
+          <img class="zoomable-img" src="images/Messaufbau%20zur%20Detektion%20von%20Strahlung.png" alt="Geiger-Müller-Zähler" data-zoom-caption="Abb. 5: Geiger-Müller-Zähler" />
+          <figcaption>Abb. 5: Geiger-Müller-Zähler</figcaption>
+        </figure>
+        <p>Abb. 5 zeigt den Geiger-Müller-Zähler als Messgerät mit Anzeige. Dieses Gerät misst die Stärke der Strahlung. Im Inneren befindet sich ein Gas, das auf Strahlung reagiert.</p>
+        <p>Wenn Strahlung in das Gerät eindringt, entstehen elektrische <span class="g" tabindex="0">Impulse<span class="tip">Kurze elektrische Signale, die als Klicks gezählt werden.</span></span>. Diese werden als Klickgeräusche hörbar gemacht. Je mehr Klicks pro Minute gezählt werden, desto stärker ist die Strahlung. Diese Anzahl nennt man <span class="g" tabindex="0">Zählrate<span class="tip">Anzahl der gemessenen Klicks/Impulse pro Zeit, meist pro Minute.</span></span>.</p>
+        <p>Der Geigerzähler ist besonders wichtig, weil er nicht nur zeigt, ob Strahlung vorhanden ist, sondern auch, wie stark sie ist.</p>
+      </div>
+
+      <div class="flow-section">
+        <h2>Die Nullrate - Strahlung ist immer vorhanden</h2>
+        <p>Auch ohne einen radioaktiven Gegenstand zeigt der Geigerzähler eine gewisse Anzahl an Klicks. Diese nennt man <span class="g" tabindex="0">Nullrate<span class="tip">Messwert ohne Probe; natürliche Grundstrahlung am Messort.</span></span>. Sie entsteht durch die <span class="g" tabindex="0">natürliche Hintergrundstrahlung<span class="tip">Strahlung, die überall vorhanden ist, auch ohne zusätzlichen Strahler.</span></span>, die überall vorhanden ist.</p>
+        <p>Typischerweise liegt sie bei etwa 20 Klicks pro Minute. Wenn man eine Messung durchführt, muss man diese Nullrate abziehen, um die tatsächliche zusätzliche Strahlung zu bestimmen.</p>
+      </div>
+
+      <div class="flow-section">
+        <h2>Beispiel: <span class="g" tabindex="0">Glühstrumpf<span class="tip">Früher in Gaslampen verwendeter Stoffmantel. Manche ältere Glühstrümpfe enthalten radioaktive Bestandteile und senden schwache Strahlung aus.</span></span></h2>
+        <figure class="flow-image right compact">
+          <img class="zoomable-img" src="images/Bild%20von%20Uranproben%20im%20Studio-Layout_ki.png" alt="Glühstrumpf, Uranglas und Uranerz" data-zoom-caption="Abb. 6: Glühstrumpf, Uranglas und Uranerz mit schwacher Radioaktivität" />
+          <figcaption>Abb. 6: Glühstrumpf, Uranglas und Uranerz mit schwacher Radioaktivität</figcaption>
+        </figure>
+        <p>Abb. 6 zeigt verschiedene Materialien wie Uranglas oder Uranerz beim <span class="g" tabindex="0">Glühstrumpf<span class="tip">Ein Lampenmantel aus dem früheren Gaslicht. Er ist hier ein Beispiel für schwach radioaktives Material.</span></span>-Beispiel. Diese enthalten radioaktive Stoffe und senden schwache Strahlung aus.</p>
+        <p>Wenn man sie mit einem Geigerzähler misst, liegt die Zählrate nur wenig über der Nullrate. Deshalb kann man diese Strahlung gerade noch nachweisen. Dieses Beispiel zeigt, wie empfindlich das Messgerät ist und dass auch sehr geringe Strahlung messbar ist.</p>
+      </div>
+
+    </section>
+  </main>
+
+  <div class="lightbox" id="imgLightbox" aria-hidden="true">
+    <button class="lightbox-close" id="imgLightboxClose" aria-label="Schließen">×</button>
+    <div class="lightbox-inner">
+      <img id="imgLightboxImage" src="" alt="Vergrößertes Bild" />
+      <p class="lightbox-caption" id="imgLightboxCaption"></p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const lightbox = document.getElementById('imgLightbox');
+      const lightboxImg = document.getElementById('imgLightboxImage');
+      const lightboxCaption = document.getElementById('imgLightboxCaption');
+      const closeBtn = document.getElementById('imgLightboxClose');
+      const zoomables = document.querySelectorAll('.zoomable-img');
+
+      function openLightbox(img) {
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt || 'Vergrößertes Bild';
+        lightboxCaption.textContent = img.dataset.zoomCaption || img.alt || '';
+        lightbox.classList.add('open');
+        lightbox.setAttribute('aria-hidden', 'false');
+      }
+
+      function closeLightbox() {
+        lightbox.classList.remove('open');
+        lightbox.setAttribute('aria-hidden', 'true');
+        lightboxImg.src = '';
+      }
+
+      zoomables.forEach((img) => {
+        img.addEventListener('click', () => openLightbox(img));
+      });
+
+      closeBtn.addEventListener('click', closeLightbox);
+      lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) closeLightbox();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && lightbox.classList.contains('open')) {
+          closeLightbox();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+

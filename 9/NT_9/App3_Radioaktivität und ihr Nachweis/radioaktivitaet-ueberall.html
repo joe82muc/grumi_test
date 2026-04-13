@@ -1,0 +1,459 @@
+﻿<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Radioaktivität – Woher kommt sie? | NT Quali 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #181818;
+      --bg-card: #222222;
+      --gold: #f0a030;
+      --gold-dim: #c4842a;
+      --gold-glow: rgba(240,160,48,.15);
+      --text: #e8e0d4;
+      --text-muted: #a09888;
+      --radius: 12px;
+      --shadow: 0 4px 24px rgba(0,0,0,.45);
+      --font-display: 'Outfit', sans-serif;
+      --font-body: 'Crimson Pro', Georgia, serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    .site-header {
+      background: linear-gradient(135deg, #1a1a1a 0%, #222 100%);
+      border-bottom: 3px solid var(--gold);
+      padding: 2rem 2rem 1.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .site-header::before {
+      content: '';
+      position: absolute;
+      top: -60%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, var(--gold-glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .brand-kicker {
+      font-family: var(--font-display);
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: .3rem;
+    }
+    .site-header h1 {
+      font-family: var(--font-display);
+      font-size: clamp(1.2rem, 3.5vw, 1.9rem);
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.25;
+    }
+    .subtitle {
+      font-size: .9rem;
+      color: var(--text-muted);
+      margin-top: .3rem;
+    }
+    .main-nav {
+      display: flex;
+      justify-content: center;
+      gap: .8rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+    .main-nav a {
+      font-family: var(--font-display);
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--gold);
+      text-decoration: none;
+      padding: .4rem 1rem;
+      border: 1.5px solid var(--gold-dim);
+      border-radius: 100px;
+      transition: all .25s;
+    }
+    .main-nav a:hover {
+      background: var(--gold);
+      color: var(--bg);
+    }
+
+    /* --- ARTICLE --- */
+    .detail-main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+    .detail-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 2rem 2rem 2.5rem;
+    }
+    .flow-actions {
+      margin-bottom: 1.5rem;
+    }
+    .btn {
+      font-family: var(--font-display);
+      font-size: .82rem;
+      font-weight: 600;
+      padding: .5rem 1.1rem;
+      border-radius: 100px;
+      text-decoration: none;
+      display: inline-block;
+      transition: all .25s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn.primary {
+      background: var(--gold);
+      color: var(--bg);
+    }
+    .btn.primary:hover {
+      background: #ffb840;
+    }
+    .btn.ghost {
+      background: transparent;
+      color: var(--gold);
+      border: 1.5px solid var(--gold-dim);
+    }
+    .btn.ghost:hover {
+      background: var(--gold);
+      color: var(--bg);
+    }
+
+    .flow-section {
+      margin-bottom: 2.2rem;
+      overflow: hidden;
+    }
+    .flow-section h2 {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: .8rem;
+      padding-bottom: .4rem;
+      border-bottom: 2px solid var(--gold-dim);
+    }
+    .flow-section p {
+      font-size: 1.05rem;
+      margin-bottom: .8rem;
+    }
+    .info-box {
+      background: #1f1a12;
+      border: 1px solid var(--gold-dim);
+      border-left: 4px solid var(--gold);
+      border-radius: 10px;
+      padding: .8rem 1rem;
+      margin-top: .7rem;
+      clear: both;
+    }
+    .info-box h3 {
+      font-family: var(--font-display);
+      font-size: .95rem;
+      color: var(--gold);
+      margin-bottom: .35rem;
+    }
+    .info-box p {
+      font-size: .95rem;
+      margin-bottom: .25rem;
+    }
+
+    .flow-image {
+      margin-bottom: 1rem;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(0,0,0,.4);
+      border: 1px solid #333;
+    }
+    .flow-image.right {
+      float: right;
+      margin-left: 1.5rem;
+      max-width: 320px;
+    }
+    .flow-image.left {
+      float: left;
+      margin-right: 1.5rem;
+      max-width: 320px;
+    }
+    .flow-image.compact { max-width: 280px; }
+    .flow-image img {
+      width: 100%;
+      display: block;
+    }
+    .flow-image figcaption {
+      font-family: var(--font-display);
+      font-size: .78rem;
+      color: var(--text-muted);
+      padding: .5rem .8rem;
+      background: #1a1a1a;
+      text-align: center;
+    }
+    .zoomable-img {
+      cursor: zoom-in;
+      transition: transform .2s ease;
+    }
+    .zoomable-img:hover {
+      transform: scale(1.02);
+    }
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.88);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      z-index: 9999;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox-inner {
+      max-width: 96vw;
+      max-height: 96vh;
+      text-align: center;
+    }
+    .lightbox img {
+      max-width: 96vw;
+      max-height: 84vh;
+      border-radius: 10px;
+      border: 1px solid #555;
+      box-shadow: 0 12px 40px rgba(0,0,0,.5);
+    }
+    .lightbox-caption {
+      margin-top: .55rem;
+      color: #e8e0d4;
+      font-family: var(--font-display);
+      font-size: .9rem;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 10px;
+      right: 14px;
+      background: transparent;
+      border: 0;
+      color: #fff;
+      font-size: 2rem;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .g {
+      position: relative;
+      display: inline-block;
+      color: var(--gold);
+      border-bottom: 1px dashed var(--gold-dim);
+      cursor: help;
+      font-weight: 600;
+    }
+    .tip {
+      display: none;
+      position: absolute;
+      left: 0;
+      top: calc(100% + 8px);
+      min-width: 220px;
+      max-width: 320px;
+      background: #141414;
+      color: var(--text);
+      border: 1px solid var(--gold-dim);
+      border-radius: 10px;
+      padding: .55rem .65rem;
+      line-height: 1.35;
+      font-size: .88rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,.45);
+      z-index: 50;
+      font-weight: 400;
+    }
+    .g:hover .tip,
+    .g:focus .tip,
+    .g:focus-within .tip {
+      display: block;
+    }
+    @media (max-width: 600px) {
+      .detail-card { padding: 1.2rem 1rem 2rem; }
+      .flow-image.right, .flow-image.left {
+        float: none;
+        max-width: 100%;
+        margin: 0 0 1rem 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand-wrap">
+      <p class="brand-kicker">Mittelschule am Sportpark</p>
+      <h1>Gruppenarbeit 1: Radioaktivität – Woher kommt sie?</h1>
+    </div>
+        <nav class="main-nav" aria-label="Navigation">
+      <a href="uebersich_gruppenarbeit.html">Zur Übersicht</a>
+      <a href="arbeitsauftraege-text1.html">Arbeitsaufträge Gruppe 1</a>
+      <a href="quiz.html">Quiz</a>
+    </nav>
+  </header>
+
+  <main class="detail-main">
+    <section class="detail-card">
+
+      <div class="flow-section">
+        <h2>Radioaktivität ist überall</h2>
+        <p>Radioaktive Strahlung ist ein natürlicher Bestandteil unserer Umwelt. Das bedeutet: Egal wo wir sind - draußen, im Haus oder sogar im Flugzeug - wir sind immer von Strahlung umgeben. Allerdings ist diese Strahlung in der Regel sehr schwach und daher ungefährlich. Man kann sich das wie einen ganz feinen, unsichtbaren Regen vorstellen, der ständig auf uns "herunterrieselt", ohne dass wir ihn bemerken.</p>
+      </div>
+
+      <div class="flow-section">
+        <h2>Strahlungsarten im Überblick</h2>
+        <p><strong>Bodenstrahlung:</strong> Sie kommt aus dem Untergrund, also aus Böden und Gesteinen mit radioaktiven Bestandteilen (Stoffe, die Strahlung abgeben). In Regionen mit viel Granit (hartes Gestein), zum Beispiel im Bayerischen Wald, ist sie oft höher.</p>
+        <p><strong>Höhenstrahlung:</strong> Diese Strahlung kommt aus dem Weltraum. Die Atmosphäre (Lufthülle der Erde) schützt uns davor, aber je höher man sich befindet, desto schwächer ist dieser Schutz und desto stärker wirkt die Strahlung.</p>
+        <p><strong>Eigenstrahlung:</strong> Auch unser Körper sendet eine sehr schwache natürliche Strahlung aus. Sie entsteht durch Stoffe, die wir über Luft, Nahrung und Wasser aufnehmen.</p>
+        <p><strong>Künstliche Radioaktivität:</strong> Sie wird vom Menschen erzeugt, zum Beispiel in Kernkraftwerken. In der Medizin nutzt man Strahlung gezielt, etwa beim Röntgen (Bilder aus dem Körperinneren) oder bei bestimmten Untersuchungen. Dabei wird die Strahlenmenge immer so gering wie möglich gehalten.</p>
+      </div>
+
+      <div class="flow-section">
+        <h2><span class="g" tabindex="0">Bodenstrahlung<span class="tip">Radioaktive Strahlung, die aus dem Untergrund und aus Gesteinen kommt.</span></span> - Strahlung aus Gesteinen</h2>
+        <figure class="flow-image right compact">
+          <img src="images/Bild%20von%20Uranproben%20im%20Studio-Layout_ki.png" alt="Uranproben" />
+          <figcaption>Abb. 1: Uranproben – radioaktive Gesteine senden Strahlung aus</figcaption>
+        </figure>
+        <p>Ein großer Teil der natürlichen Strahlung kommt aus dem Boden. In vielen Gesteinen befinden sich radioaktive Stoffe, zum Beispiel <span class="g" tabindex="0">Uran<span class="tip">Ein natürliches, radioaktives Schwermetall im Gestein.</span></span> oder <span class="g" tabindex="0">Thorium<span class="tip">Ein ebenfalls natürliches radioaktives Element, das in manchen Gesteinen vorkommt.</span></span>. Diese Stoffe <span class="g" tabindex="0">zerfallen<span class="tip">Beim Zerfall wandelt sich ein instabiler Atomkern in einen anderen um und sendet dabei Strahlung aus.</span></span> langsam und geben dabei Strahlung ab.</p>
+        <p>Je nachdem, welche Gesteine in einer Region vorkommen, ist die Strahlung unterschiedlich stark. Besonders hoch ist die Bodenstrahlung in Gebieten mit viel Granit, wie zum Beispiel im Bayerischen Wald. Granit enthält vergleichsweise viele radioaktive Bestandteile.</p>
+        <figure class="flow-image left compact">
+          <img class="zoomable-img" src="images/nat%C3%BCrliche_radiaaktivit%C3%A4t_deutschland_ki.jfif" alt="Deutschlandkarte zur natürlichen Radioaktivität" data-zoom-caption="Deutschlandkarte: natürliche Radioaktivität in Deutschland" />
+          <figcaption>Deutschlandkarte: natürliche Radioaktivität in Deutschland</figcaption>
+        </figure>
+        <p>Die Karte zeigt, dass die natürliche Strahlung regional unterschiedlich ist. In Regionen mit granitreichen Gesteinen (z. B. im Süden) ist sie oft höher, in anderen Gebieten niedriger. Das passt zur Aussage aus dem Text: Der Untergrund und die Höhenlage beeinflussen die Strahlenbelastung.</p>
+        <p>Das bedeutet: Wenn du in einer solchen Region lebst oder dich dort aufhältst, bist du automatisch einer etwas höheren natürlichen Strahlung ausgesetzt. Man kann sich den Boden wie eine große Fläche vorstellen, die ganz schwach "strahlt", ähnlich wie ein Heizkörper, der nur minimal Wärme abgibt.</p>
+      </div>
+
+      <div class="flow-section">
+        <h2>Höhenstrahlung - Strahlung aus dem Weltraum</h2>
+        <p>Ein weiterer Teil der Strahlung kommt aus dem Weltraum. Diese sogenannte <span class="g" tabindex="0">kosmische Strahlung<span class="tip">Strahlung aus dem Weltall, die auf die Erde trifft.</span></span> trifft ständig auf die Erde. Unsere <span class="g" tabindex="0">Atmosphäre<span class="tip">Die Lufthülle der Erde. Sie schirmt einen großen Teil der Strahlung aus dem All ab.</span></span> schützt uns davor, indem sie einen großen Teil dieser Strahlung abfängt.</p>
+        <p>Allerdings gilt: Je höher man sich befindet, desto dünner wird die Atmosphäre und desto weniger Schutz bietet sie. Deshalb nimmt die Strahlenbelastung mit der Höhe zu.</p>
+        <p>Ein gutes Beispiel ist die Zugspitze. Dort ist die Strahlung deutlich stärker als im Flachland. Noch stärker ist sie im Flugzeug, weil man sich dort in großer Höhe befindet. Man kann sich die Atmosphäre wie einen Regenschirm vorstellen: Am Boden ist der Schutz stark, weiter oben wird er immer schwächer.</p>
+      </div>
+
+      <div class="flow-section">
+        <h2><span class="g" tabindex="0">Eigenstrahlung<span class="tip">Sehr schwache Strahlung, die vom eigenen Körper ausgeht, weil wir natürliche radioaktive Stoffe enthalten.</span></span> - Strahlung aus dem Körper</h2>
+        <p>Auch unser eigener Körper trägt zur Strahlung bei. Das klingt zunächst überraschend, ist aber ganz normal. Über unsere Nahrung, das Trinkwasser und die Atemluft nehmen wir kleine Mengen radioaktiver Stoffe auf.</p>
+        <p>Ein bekanntes Beispiel ist das Element Kalium, das in vielen Lebensmitteln enthalten ist, zum Beispiel in Bananen. Ein kleiner Teil dieses Kaliums ist radioaktiv und sendet Strahlung aus. Dadurch wird unser Körper selbst zu einer sehr schwachen Strahlungsquelle. Diese sogenannte Eigenstrahlung ist jedoch so gering, dass sie keine Gefahr darstellt.</p>
+      </div>
+
+      <div class="flow-section">
+        <h2><span class="g" tabindex="0">Künstliche Radioaktivität<span class="tip">Radioaktive Strahlung, die durch menschliche Technik entsteht, z. B. im Kraftwerk oder in der Medizin.</span></span> - vom Menschen erzeugt</h2>
+        <figure class="flow-image left compact">
+          <img src="images/akw_ki.png" alt="Kernkraftwerk" />
+          <figcaption>Abb. 2: Kernkraftwerk – künstliche Radioaktivität zur Stromerzeugung</figcaption>
+        </figure>
+        <p>Neben der natürlichen Strahlung gibt es auch künstliche Radioaktivität, die vom Menschen erzeugt wird. Diese entsteht vor allem in Kernkraftwerken oder in der Medizin. Dabei wird immer darauf geachtet, die Strahlung möglichst gering zu halten.</p>
+        <p>Abb. 2 zeigt ein Kernkraftwerk mit großen Kühltürmen. Dort wird mithilfe radioaktiver Stoffe Energie erzeugt, um Strom herzustellen. Das zeigt, dass Radioaktivität technisch genutzt werden kann.</p>
+      </div>
+
+      <div class="flow-section">
+        <figure class="flow-image right compact">
+          <img src="images/MRT-ki.png" alt="MRT-Gerät im Krankenhaus" />
+          <figcaption>Abb. 3: MRT – medizinische Bildgebung</figcaption>
+        </figure>
+        <p>Abb. 3 zeigt ein MRT-Gerät im Krankenhaus. Hier wird Strahlung eingesetzt, um Bilder vom Inneren des Körpers zu erzeugen. Knochen sind sichtbar, weil sie Strahlung unterschiedlich stark durchlassen.</p>
+      </div>
+
+      <div class="flow-section">
+        <h2>Die Entdeckung der Radioaktivität</h2>
+        <figure class="flow-image right compact">
+          <img src="images/Baquerell_Quelle%20Wikimedia%20Commons%20Public%20Domain.jpg" alt="Henri Becquerel" />
+          <figcaption>Abb. 4: Henri Becquerel (Quelle: Wikimedia Commons, Public Domain)</figcaption>
+        </figure>
+        <p>Die Radioaktivität wurde im Jahr 1896 von <span class="g" tabindex="0">Henri Becquerel<span class="tip">Französischer Physiker, der 1896 die Radioaktivität entdeckte.</span></span> entdeckt - und zwar eher zufällig. Er untersuchte ein Mineral, das Uran enthält. Dieses Material leuchtete nach, wenn es vorher dem Sonnenlicht ausgesetzt war.</p>
+        <p>Dazu legte er das Uran auf eine Fotoplatte, die lichtdicht verpackt war. Als er sie später entwickelte, war sie geschwärzt. Daraus schloss er, dass das Uran eine unsichtbare Strahlung aussendet. Damit war die Radioaktivität entdeckt.</p>
+      </div>
+
+      <div class="flow-section">
+        <figure class="flow-image left compact">
+          <img src="images/fotoplatten_ki.png" alt="Fotoplatte mit Schwärzung" />
+          <figcaption>Abb. 5: Fotoplatte – dunkle Flecken durch Strahlung</figcaption>
+        </figure>
+        <p>Abb. 5 zeigt eine Fotoplatte mit dunklen Flecken. Eine Fotoplatte reagiert normalerweise auf Licht und wird dann dunkel. In diesem Versuch war aber gar kein Licht an der Platte, denn sie war in Papier eingewickelt. Trotzdem entstanden dunkle Stellen. Das zeigt: Nicht Licht, sondern radioaktive Strahlung hat die Platte verändert. Diese Strahlung ist unsichtbar, kann aber durch Papier hindurchgehen und dort eine Wirkung auslösen.</p>
+      </div>
+
+      <div class="flow-section">
+        <figure class="flow-image right compact">
+          <img src="images/Currie_Quelle%20Wikimedia%20Commons%20Public%20Domain.jfif" alt="Pierre und Marie Curie" />
+          <figcaption>Abb. 6: Pierre und Marie Curie (Quelle: Wikimedia Commons, Public Domain)</figcaption>
+        </figure>
+        <p>Marie und Pierre Curie untersuchten diese Strahlung weiter und entdeckten neue radioaktive Stoffe. Dazu gehörten zum Beispiel Polonium und Radium. Ihre Forschung war sehr wichtig, weil man dadurch Radioaktivität besser verstehen konnte. Marie Curie bekam später sogar zwei Nobelpreise für ihre wissenschaftliche Arbeit.</p>
+        <div class="info-box">
+          <h3>Infobox: Marie Curies Nobelpreise</h3>
+          <p>1903: Nobelpreis für Physik (zusammen mit Pierre Curie und Henri Becquerel)</p>
+          <p>1911: Nobelpreis für Chemie (für ihre Arbeiten zu Radium und Polonium)</p>
+        </div>
+      </div>
+
+    </section>
+  </main>
+  <div class="lightbox" id="imgLightbox" aria-hidden="true">
+    <button class="lightbox-close" id="imgLightboxClose" aria-label="Schließen">×</button>
+    <div class="lightbox-inner">
+      <img id="imgLightboxImage" src="" alt="Vergrößertes Bild" />
+      <p class="lightbox-caption" id="imgLightboxCaption"></p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const lightbox = document.getElementById('imgLightbox');
+      const lightboxImg = document.getElementById('imgLightboxImage');
+      const lightboxCaption = document.getElementById('imgLightboxCaption');
+      const closeBtn = document.getElementById('imgLightboxClose');
+      const zoomables = document.querySelectorAll('.zoomable-img');
+
+      function openLightbox(img) {
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt || 'Vergrößertes Bild';
+        lightboxCaption.textContent = img.dataset.zoomCaption || img.alt || '';
+        lightbox.classList.add('open');
+        lightbox.setAttribute('aria-hidden', 'false');
+      }
+
+      function closeLightbox() {
+        lightbox.classList.remove('open');
+        lightbox.setAttribute('aria-hidden', 'true');
+        lightboxImg.src = '';
+      }
+
+      zoomables.forEach((img) => {
+        img.addEventListener('click', () => openLightbox(img));
+      });
+
+      closeBtn.addEventListener('click', closeLightbox);
+      lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) closeLightbox();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && lightbox.classList.contains('open')) {
+          closeLightbox();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
+
+
+
+
+
+

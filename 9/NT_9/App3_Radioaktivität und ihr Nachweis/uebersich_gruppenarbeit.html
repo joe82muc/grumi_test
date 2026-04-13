@@ -1,0 +1,307 @@
+﻿<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NT Quali 2026 | Radioaktivität</title>
+  <meta name="description" content="Lernplattform Natur und Technik (9. Klasse): Radioaktivität und Nachweis radioaktiver Strahlung." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #181818;
+      --bg-card: #222222;
+      --bg-card-hover: #2a2a2a;
+      --gold: #f0a030;
+      --gold-dim: #c4842a;
+      --gold-glow: rgba(240,160,48,.15);
+      --text: #e8e0d4;
+      --text-muted: #a09888;
+      --danger: #c0392b;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow: 0 4px 24px rgba(0,0,0,.45);
+      --font-display: 'Outfit', sans-serif;
+      --font-body: 'Crimson Pro', Georgia, serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* --- HEADER --- */
+    .site-header {
+      background: linear-gradient(135deg, #1a1a1a 0%, #222 100%);
+      border-bottom: 3px solid var(--gold);
+      padding: 2.5rem 2rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .site-header::before {
+      content: '';
+      position: absolute;
+      top: -60%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, var(--gold-glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .brand-kicker {
+      font-family: var(--font-display);
+      font-size: .85rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: .3rem;
+    }
+    .site-header h1 {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 4vw, 2.4rem);
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.2;
+    }
+    .subtitle {
+      font-size: .95rem;
+      color: var(--text-muted);
+      margin-top: .4rem;
+    }
+
+    /* --- NAV --- */
+    .main-nav {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1.2rem;
+      flex-wrap: wrap;
+    }
+    .main-nav a {
+      font-family: var(--font-display);
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--gold);
+      text-decoration: none;
+      padding: .45rem 1.1rem;
+      border: 1.5px solid var(--gold-dim);
+      border-radius: 100px;
+      transition: all .25s;
+    }
+    .main-nav a:hover {
+      background: var(--gold);
+      color: var(--bg);
+    }
+
+    /* --- CONTENT --- */
+    .content-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+    .section-head h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.3rem, 3vw, 1.9rem);
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      position: relative;
+      padding-bottom: .6rem;
+    }
+    .section-head h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: var(--gold);
+      border-radius: 2px;
+    }
+
+    /* --- TOPIC GRID --- */
+    .topic-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.8rem;
+    }
+    .topic-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform .3s, box-shadow .3s;
+      display: flex;
+      flex-direction: column;
+    }
+    .topic-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 32px rgba(0,0,0,.55), 0 0 0 1px var(--gold-dim);
+    }
+    .topic-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      border-bottom: 2px solid var(--gold-dim);
+    }
+    .topic-body {
+      padding: 1.3rem 1.4rem 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .topic-body h3 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: .5rem;
+    }
+    .topic-body p {
+      font-size: .95rem;
+      color: var(--text-muted);
+      flex: 1;
+      margin-bottom: 1rem;
+    }
+
+    /* --- BUTTONS --- */
+    .actions {
+      display: flex;
+      gap: .6rem;
+      flex-wrap: wrap;
+    }
+    .btn {
+      font-family: var(--font-display);
+      font-size: .82rem;
+      font-weight: 600;
+      padding: .5rem 1.1rem;
+      border-radius: 100px;
+      text-decoration: none;
+      display: inline-block;
+      transition: all .25s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn.primary {
+      background: var(--gold);
+      color: var(--bg);
+    }
+    .btn.primary:hover {
+      background: #ffb840;
+      transform: translateY(-1px);
+    }
+    .btn.ghost {
+      background: transparent;
+      color: var(--gold);
+      border: 1.5px solid var(--gold-dim);
+    }
+    .btn.ghost:hover {
+      background: var(--gold);
+      color: var(--bg);
+    }
+
+    /* --- FOOTER --- */
+    .site-footer {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      border-top: 1px solid #333;
+      color: var(--text-muted);
+      font-size: .85rem;
+    }
+    .site-footer a {
+      color: var(--gold);
+      text-decoration: none;
+      margin-left: 1rem;
+    }
+    .site-footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 600px) {
+      .site-header { padding: 1.5rem 1rem; }
+      .content-wrap { padding: 1.5rem 1rem 3rem; }
+      .topic-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" id="top">
+    <div class="brand-wrap">
+      <p class="brand-kicker">Mittelschule am Sportpark</p>
+      <h1>Natur und Technik | 9. Klasse</h1>
+      <p class="subtitle">Lernplattform von Johannes Mößner</p>
+    </div>
+
+        <nav class="main-nav" aria-label="Hauptmenü">
+      <a href="radioaktivitaet-ueberall.html">Gruppe 1: Radioaktivität</a>
+      <a href="nachweis-radioaktiver-strahlung.html">Gruppe 2: Nachweis</a>
+      <a href="arbeitsauftraege-text1.html">Arbeitsaufträge Gruppe 1</a>
+      <a href="arbeitsauftraege-text2.html">Arbeitsaufträge Gruppe 2</a>
+      <a href="test_radioaktivitaet_und_ihr_nachweis.html">Test</a>
+    </nav>
+  </header>
+
+  <main class="content-wrap">
+    <section id="radioaktivitaet" class="section">
+      <div class="section-head">
+        <h2>Radioaktivität und ihr Nachweis</h2>
+      </div>
+
+      <div class="topic-grid">
+        <article class="topic-card">
+          <img class="topic-image" src="images/Baquerell_Quelle%20Wikimedia%20Commons%20Public%20Domain.jpg" alt="Henri Becquerel" />
+          <div class="topic-body">
+            <h3>Gruppe 1: Radioaktivität – Woher kommt sie?</h3>
+            <p>Natürliche und künstliche Radioaktivität, Entdeckung durch Becquerel und Curie.</p>
+            <div class="actions">
+              <a class="btn primary" href="radioaktivitaet-ueberall.html">Infoseite öffnen</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="topic-card">
+          <img class="topic-image" src="images/Kondensationsspuren%20in%20einer%20Nebelkammer_ki.png" alt="Kondensationsspuren in einer Nebelkammer" />
+          <div class="topic-body">
+            <h3>Gruppe 2: Nachweis radioaktiver Strahlung</h3>
+            <p>Fotoplatte, Nebelkammer, Geiger-Müller-Zähler, Nullrate und Glühstrumpf.</p>
+            <div class="actions">
+              <a class="btn primary" href="nachweis-radioaktiver-strahlung.html">Infoseite öffnen</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="topic-card">
+          <img class="topic-image" src="images/Messaufbau%20zur%20Detektion%20von%20Strahlung.png" alt="Geiger-Müller-Zähler" />
+          <div class="topic-body">
+            <h3>Test</h3>
+            <p>Teste dein Wissen zu den beiden Texten mit 9 Fragen.</p>
+            <div class="actions">
+              <a class="btn primary" href="test_radioaktivitaet_und_ihr_nachweis.html">Test öffnen</a>
+              <a class="btn ghost" href="test_radioaktivitaet_und_ihr_nachweis.html#hinweis">Info</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    NT 9 · Natur und Technik · Mittelschule Bayern | <a href="../übersicht_themen.html">Zur Themenübersicht NT</a>
+  </footer>
+</body>
+</html>
+
+
+
+
+
+
+
+

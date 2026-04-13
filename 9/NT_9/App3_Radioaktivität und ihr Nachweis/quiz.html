@@ -1,0 +1,334 @@
+﻿<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz | Radioaktivität und Nachweis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #181818;
+      --bg-card: #222222;
+      --gold: #f0a030;
+      --gold-dim: #c4842a;
+      --gold-glow: rgba(240,160,48,.15);
+      --text: #e8e0d4;
+      --text-muted: #a09888;
+      --green: #27ae60;
+      --red: #c0392b;
+      --radius: 12px;
+      --shadow: 0 4px 24px rgba(0,0,0,.45);
+      --font-display: 'Outfit', sans-serif;
+      --font-body: 'Crimson Pro', Georgia, serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+    .site-header {
+      background: linear-gradient(135deg, #1a1a1a 0%, #222 100%);
+      border-bottom: 3px solid var(--gold);
+      padding: 2rem 2rem 1.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .site-header::before {
+      content: '';
+      position: absolute;
+      top: -60%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, var(--gold-glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .brand-kicker {
+      font-family: var(--font-display);
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: .3rem;
+    }
+    .site-header h1 {
+      font-family: var(--font-display);
+      font-size: clamp(1.2rem, 3.5vw, 1.9rem);
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.25;
+    }
+    .subtitle {
+      font-size: .9rem;
+      color: var(--text-muted);
+      margin-top: .3rem;
+    }
+    .main-nav {
+      display: flex;
+      justify-content: center;
+      gap: .8rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+    .main-nav a {
+      font-family: var(--font-display);
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--gold);
+      text-decoration: none;
+      padding: .4rem 1rem;
+      border: 1.5px solid var(--gold-dim);
+      border-radius: 100px;
+      transition: all .25s;
+    }
+    .main-nav a:hover {
+      background: var(--gold);
+      color: var(--bg);
+    }
+    .detail-main {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+    .detail-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 2rem 2rem 2.5rem;
+    }
+    .btn {
+      font-family: var(--font-display);
+      font-size: .82rem;
+      font-weight: 600;
+      padding: .5rem 1.1rem;
+      border-radius: 100px;
+      text-decoration: none;
+      display: inline-block;
+      transition: all .25s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn.primary { background: var(--gold); color: var(--bg); }
+    .btn.primary:hover { background: #ffb840; }
+    .btn.ghost {
+      background: transparent;
+      color: var(--gold);
+      border: 1.5px solid var(--gold-dim);
+    }
+    .btn.ghost:hover { background: var(--gold); color: var(--bg); }
+    #quizProgress {
+      font-family: var(--font-display);
+      font-size: .95rem;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+      text-align: center;
+    }
+    .quiz-item { display: none; }
+    .quiz-item h3 {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+    .quiz-item label {
+      display: block;
+      font-size: 1rem;
+      padding: .65rem 1rem;
+      margin-bottom: .5rem;
+      background: #2a2a2a;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: background .2s, border-color .2s;
+      border: 1.5px solid transparent;
+    }
+    .quiz-item label:hover { background: #333; border-color: var(--gold-dim); }
+    .quiz-item input[type="radio"] {
+      accent-color: var(--gold);
+      margin-right: .5rem;
+      transform: scale(1.15);
+      vertical-align: middle;
+    }
+    .actions {
+      display: flex;
+      gap: .6rem;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+      justify-content: center;
+    }
+    #auswertung {
+      display: none;
+      margin-top: 1.5rem;
+      background: #1e1e1e;
+      border: 1.5px solid var(--gold-dim);
+      border-radius: var(--radius);
+      padding: 1.3rem 1.5rem;
+    }
+    #auswertung h3 {
+      font-family: var(--font-display);
+      color: var(--gold);
+      margin-bottom: .5rem;
+    }
+    #auswertung p { margin-bottom: .4rem; }
+    @media (max-width: 600px) { .detail-card { padding: 1.2rem 1rem 2rem; } }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand-wrap">
+      <p class="brand-kicker">Mittelschule am Sportpark</p>
+      <h1>Quiz: Radioaktivität und Nachweis</h1>
+      <p class="subtitle">Teste dein Wissen mit 20 Fragen</p>
+    </div>
+    <nav class="main-nav" aria-label="Navigation">
+      <a href="uebersich_gruppenarbeit.html">Zur Übersicht</a>
+      <a href="radioaktivitaet-ueberall.html">Text 1</a>
+      <a href="nachweis-radioaktiver-strahlung.html">Text 2</a>
+      <a href="arbeitsauftraege-text1.html">Aufträge T1</a>
+      <a href="arbeitsauftraege-text2.html">Aufträge T2</a>
+    </nav>
+  </header>
+
+  <main class="detail-main" id="quiz">
+    <section class="detail-card">
+      <div id="quizProgress"></div>
+      <div class="quiz-list" id="quizList"></div>
+
+      <div class="actions" id="quizNav">
+        <a class="btn ghost" href="uebersich_gruppenarbeit.html">Zur Übersicht</a>
+        <button class="btn ghost" type="button" id="prevQuestion">Zurück</button>
+        <button class="btn primary" type="button" id="nextQuestion">Weiter</button>
+        <button class="btn primary" type="button" id="checkQuiz" style="display:none;">Quiz auswerten</button>
+        <button class="btn ghost" type="button" id="resetQuiz">Zurücksetzen</button>
+      </div>
+
+      <div id="auswertung"></div>
+    </section>
+  </main>
+
+  <script>
+    const questions = [
+      { q: 'Welche Aussage zur natürlichen Radioaktivität ist richtig?', a: ['Sie gibt es nur in Kernkraftwerken.', 'Sie ist überall vorhanden, aber unterschiedlich stark.', 'Sie kommt nur im Weltall vor.', 'Sie ist in ganz Deutschland gleich.'], c: 1 },
+      { q: 'Woher kommt Bodenstrahlung hauptsächlich?', a: ['Aus Gesteinen mit Uran und Thorium.', 'Nur aus Wolken.', 'Nur aus Flüssen.', 'Nur aus Stromleitungen.'], c: 0 },
+      { q: 'In welchen Regionen ist die Bodenstrahlung oft höher?', a: ['In Regionen mit viel Sand.', 'In Regionen ohne Gestein.', 'In Regionen mit viel Granit.', 'Nur an der Küste.'], c: 2 },
+      { q: 'Was passiert mit der Höhenstrahlung, wenn die Höhe zunimmt?', a: ['Sie nimmt ab.', 'Sie bleibt immer gleich.', 'Sie nimmt zu.', 'Sie verschwindet ganz.'], c: 2 },
+      { q: 'Welche Rolle hat die Atmosphäre bei kosmischer Strahlung?', a: ['Sie schirmt einen Teil der Strahlung ab.', 'Sie verstärkt jede Strahlung.', 'Sie erzeugt immer neue Strahlung.', 'Sie hat keinen Einfluss.'], c: 0 },
+      { q: 'Wie entsteht die Eigenstrahlung des Menschen?', a: ['Nur durch Sonnenlicht.', 'Nur durch Wasser im Körper.', 'Durch aufgenommene natürliche radioaktive Stoffe.', 'Nur durch Sport.'], c: 2 },
+      { q: 'Welches Lebensmittel wird im Text als Beispiel für Eigenstrahlung genannt?', a: ['Apfel', 'Banane', 'Brot', 'Milch'], c: 1 },
+      { q: 'Wo wird künstliche Radioaktivität laut Text genutzt?', a: ['In Kernkraftwerken und in der Medizin.', 'Nur in Vulkanen.', 'Nur in Flugzeugen.', 'Nur im Straßenbau.'], c: 0 },
+      { q: 'In welchem Jahr entdeckte Henri Becquerel die Radioaktivität?', a: ['1886', '1903', '1896', '1911'], c: 2 },
+      { q: 'Was zeigte die geschwärzte Fotoplatte bei Becquerel?', a: ['Die Platte war defekt.', 'Uran sendete unsichtbare Strahlung aus.', 'Es war kein Uran vorhanden.', 'Die Sonne war zu stark.'], c: 1 },
+      { q: 'Welche Aussage zur Nebelkammer ist richtig?', a: ['Sie zeigt nur Licht.', 'Sie macht Teilchenspuren als Linien sichtbar.', 'Sie misst Temperatur.', 'Sie misst nur Luftdruck.'], c: 1 },
+      { q: 'Was zeigt ein Geiger-Müller-Zähler an?', a: ['Nur Farben von Stoffen.', 'Nur die Uhrzeit.', 'Die Stärke der Strahlung über Impulse/Klicks.', 'Nur Magnetfelder.'], c: 2 },
+      { q: 'Was bedeutet Zählrate?', a: ['Anzahl der Klicks/Impulse pro Zeit.', 'Anzahl der Versuchspersonen.', 'Anzahl der Bilder.', 'Anzahl der Geräte.'], c: 0 },
+      { q: 'Was ist die Nullrate?', a: ['Die höchste Messung eines Tages.', 'Ein Gerätefehler.', 'Die Hintergrundstrahlung ohne Probe.', 'Die Strahlung nur im Labor.'], c: 2 },
+      { q: 'Warum zieht man bei Messungen die Nullrate ab?', a: ['Damit die Messung größer aussieht.', 'Um die zusätzliche Strahlung der Probe zu bestimmen.', 'Damit keine Klicks gezählt werden.', 'Nur aus mathematischen Gründen ohne Bedeutung.'], c: 1 },
+      { q: 'Warum ist der Glühstrumpf als Beispiel wichtig?', a: ['Seine Strahlung liegt nur wenig über der Nullrate.', 'Er erzeugt Strom.', 'Er blockiert jede Strahlung.', 'Er ersetzt den Geigerzähler.'], c: 0 },
+      { q: 'Was bedeutet es, wenn der Geigerzähler mehr Klicks pro Minute zeigt?', a: ['Das Gerät ist kaputt.', 'Die Batterie ist leer.', 'Die Strahlung ist stärker.', 'Die Raumtemperatur steigt.'], c: 2 },
+      { q: 'Welche Nobelpreise erhielt Marie Curie?', a: ['Zweimal Physik.', 'Einmal Biologie.', 'Nur Chemie.', 'Physik (1903) und Chemie (1911).'], c: 3 },
+      { q: 'Welche radioaktiven Elemente entdeckten die Curies?', a: ['Helium und Neon', 'Polonium und Radium', 'Gold und Silber', 'Lithium und Natrium'], c: 1 },
+      { q: 'Welche Methode macht Strahlung direkt als Linien sichtbar?', a: ['Fotoplatte', 'MRT', 'Nebelkammer', 'Kernkraftwerk'], c: 2 }
+    ];
+
+    const quizList = document.getElementById('quizList');
+    const progressBox = document.getElementById('quizProgress');
+    const prevBtn = document.getElementById('prevQuestion');
+    const nextBtn = document.getElementById('nextQuestion');
+    const checkBtn = document.getElementById('checkQuiz');
+    const resetBtn = document.getElementById('resetQuiz');
+    const resultBox = document.getElementById('auswertung');
+
+    let currentIndex = 0;
+
+    function renderQuestions() {
+      quizList.innerHTML = questions.map((item, i) => `
+        <article class="quiz-item" data-idx="${i}">
+          <h3>${i + 1}) ${item.q}</h3>
+          ${item.a.map((opt, j) => `
+            <label><input type="radio" name="q${i}" value="${j}" /> ${opt}</label>
+          `).join('')}
+        </article>
+      `).join('');
+    }
+
+    function renderQuestion() {
+      const items = Array.from(document.querySelectorAll('.quiz-item'));
+      items.forEach((item, idx) => {
+        item.style.display = idx === currentIndex ? 'block' : 'none';
+      });
+
+      progressBox.innerHTML = `<strong>Frage ${currentIndex + 1} von ${questions.length}</strong>`;
+      prevBtn.style.display = currentIndex === 0 ? 'none' : 'inline-block';
+
+      const isLast = currentIndex === questions.length - 1;
+      nextBtn.style.display = isLast ? 'none' : 'inline-block';
+      checkBtn.style.display = isLast ? 'inline-block' : 'none';
+    }
+
+    function evaluateQuiz() {
+      let score = 0;
+      let answered = 0;
+
+      questions.forEach((q, i) => {
+        const picked = document.querySelector(`input[name="q${i}"]:checked`);
+        if (!picked) return;
+        answered += 1;
+        if (Number(picked.value) === q.c) score += 1;
+      });
+
+      const percent = Math.round((score / questions.length) * 100);
+
+      let noteText = 'Gut gemacht, weiter so.';
+      if (percent < 50) noteText = 'Bitte wiederhole die beiden Texte und versuche es erneut.';
+      if (percent >= 80) noteText = 'Sehr stark. Du bist gut vorbereitet.';
+
+      resultBox.style.display = 'block';
+      resultBox.innerHTML = `
+        <h3>Ergebnis</h3>
+        <p><strong>${score} von ${questions.length} Punkten</strong> (${percent}%)</p>
+        <p>Beantwortet: ${answered} von ${questions.length}</p>
+        <p>${noteText}</p>
+      `;
+      location.hash = 'auswertung';
+    }
+
+    function resetQuiz() {
+      document.querySelectorAll('input[type="radio"]').forEach((el) => { el.checked = false; });
+      resultBox.style.display = 'none';
+      resultBox.innerHTML = '';
+      currentIndex = 0;
+      renderQuestion();
+      location.hash = 'quiz';
+    }
+
+    prevBtn.addEventListener('click', () => {
+      if (currentIndex > 0) {
+        currentIndex -= 1;
+        renderQuestion();
+      }
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (currentIndex < questions.length - 1) {
+        currentIndex += 1;
+        renderQuestion();
+      }
+    });
+
+    checkBtn.addEventListener('click', evaluateQuiz);
+    resetBtn.addEventListener('click', resetQuiz);
+
+    renderQuestions();
+    renderQuestion();
+  </script>
+</body>
+</html>

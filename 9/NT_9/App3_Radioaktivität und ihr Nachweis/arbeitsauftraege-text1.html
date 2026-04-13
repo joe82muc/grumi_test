@@ -1,0 +1,249 @@
+﻿<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arbeitsaufträge Gruppe 1 | NT Quali 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #181818;
+      --bg-card: #222222;
+      --bg-box: #1e1e1e;
+      --gold: #f0a030;
+      --gold-dim: #c4842a;
+      --gold-glow: rgba(240,160,48,.15);
+      --text: #e8e0d4;
+      --text-muted: #a09888;
+      --radius: 12px;
+      --shadow: 0 4px 24px rgba(0,0,0,.45);
+      --font-display: 'Outfit', sans-serif;
+      --font-body: 'Crimson Pro', Georgia, serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+    .site-header {
+      background: linear-gradient(135deg, #1a1a1a 0%, #222 100%);
+      border-bottom: 3px solid var(--gold);
+      padding: 2rem 2rem 1.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .site-header::before {
+      content: '';
+      position: absolute;
+      top: -60%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, var(--gold-glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .brand-kicker {
+      font-family: var(--font-display);
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: .3rem;
+    }
+    .site-header h1 {
+      font-family: var(--font-display);
+      font-size: clamp(1.1rem, 3.5vw, 1.8rem);
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.25;
+    }
+    .subtitle {
+      font-size: .9rem;
+      color: var(--text-muted);
+      margin-top: .3rem;
+    }
+    .main-nav {
+      display: flex;
+      justify-content: center;
+      gap: .8rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+    .main-nav a {
+      font-family: var(--font-display);
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--gold);
+      text-decoration: none;
+      padding: .4rem 1rem;
+      border: 1.5px solid var(--gold-dim);
+      border-radius: 100px;
+      transition: all .25s;
+    }
+    .main-nav a:hover {
+      background: var(--gold);
+      color: var(--bg);
+    }
+    .ab-main {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+    .ab-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 2rem 2rem 2.5rem;
+    }
+    .ab-card h2 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--gold);
+      margin-top: 1.8rem;
+      margin-bottom: .6rem;
+      padding-bottom: .35rem;
+      border-bottom: 2px solid var(--gold-dim);
+    }
+    .ab-card h2:first-child { margin-top: 0; }
+    .poster-box {
+      background: var(--bg-box);
+      border: 1px solid #333;
+      border-radius: var(--radius);
+      padding: 1.1rem 1.3rem;
+      margin-bottom: .3rem;
+    }
+    .poster-box h3 {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: .4rem;
+      margin-top: .8rem;
+    }
+    .poster-box h3:first-child { margin-top: 0; }
+    .poster-box p {
+      font-size: 1rem;
+      margin-bottom: .5rem;
+    }
+    .poster-box ul, .poster-box ol {
+      padding-left: 1.4rem;
+      margin-bottom: .5rem;
+    }
+    .poster-box li {
+      font-size: .98rem;
+      margin-bottom: .25rem;
+    }
+    @media (max-width: 600px) {
+      .ab-card { padding: 1.2rem 1rem 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand-wrap">
+      <p class="brand-kicker">Mittelschule am Sportpark</p>
+      <h1>Gruppenarbeit - Radioaktivität (Plakat + Kurzvortrag)</h1>
+      <p class="subtitle">Gruppe A - Woher kommt Radioaktivität?</p>
+    </div>
+        <nav class="main-nav" aria-label="Navigation">
+      <a href="uebersich_gruppenarbeit.html">Zur Übersicht</a>
+      <a href="radioaktivitaet-ueberall.html">zurück zur Gruppe</a>
+      <a href="quiz.html">Quiz</a>
+    </nav>
+  </header>
+
+  <main class="ab-main">
+    <section class="ab-card">
+      <h2>Ziel</h2>
+      <div class="poster-box">
+        <p>Ihr erstellt ein anschauliches Plakat (DIN A3) zu eurem Text und erklärt es der Klasse in einem 2-Minuten-Vortrag. Die Bilder sollen nicht nur aufgeklebt, sondern auch erklärt werden.</p>
+      </div>
+
+      <h2>Arbeitsauftrag (Gruppe A)</h2>
+      <div class="poster-box">
+        <p>Erstellt ein übersichtliches Plakat zu den Ursachen von Radioaktivität.</p>
+      </div>
+
+      <h2>Inhalte (müssen aufs Plakat)</h2>
+      <div class="poster-box">
+        <h3>1. Vier Quellen der Radioaktivität</h3>
+        <ul>
+          <li>Bodenstrahlung</li>
+          <li>Höhenstrahlung</li>
+          <li>Eigenstrahlung</li>
+          <li>künstliche Radioaktivität</li>
+        </ul>
+        <p>Zu jeder Quelle: 1-2 eigene Sätze Erklärung und ein Beispiel aus dem Alltag.</p>
+
+        <h3>2. Deutschlandkarte erklären</h3>
+        <p>Nutzt die Deutschlandkarte zur natürlichen Strahlung aus dem Unterricht/Heft und verknüpft sie mit dem Text.</p>
+        <ul>
+          <li>Wo ist die Strahlung besonders hoch?</li>
+          <li>Warum könnte das so sein (Gesteine wie Granit, Höhenlage in Gebirgen)?</li>
+        </ul>
+        <p>Tipp aus dem Text: Bayerischer Wald (Granit) und Höhenstrahlung in Gebirgen.</p>
+
+        <h3>3. Entdeckung der Radioaktivität (Pfeilkette)</h3>
+        <p>Stellt die Entdeckung von Henri Becquerel als Pfeilkette dar:</p>
+        <p><strong>Uran → Fotoplatte → Schwärzung → Schlussfolgerung</strong></p>
+        <p>Kurz erklären: Was bedeutet das?</p>
+
+        <h3>4. Marie und Pierre Curie</h3>
+        <p>Rolle in 2 Sätzen erklären.</p>
+      </div>
+
+      <h2>Plakat-Regeln</h2>
+      <div class="poster-box">
+        <ul>
+          <li>DIN A3</li>
+          <li>klare Überschrift</li>
+          <li>kurze, verständliche Sätze</li>
+          <li>Fachbegriffe erklären</li>
+          <li>mindestens 2 Bilder + Erklärung</li>
+          <li>übersichtlich (nicht zu voll)</li>
+        </ul>
+      </div>
+
+      <h2>Technik (verpflichtend)</h2>
+      <div class="poster-box">
+        <ol>
+          <li>Macht ein Foto eures Plakats mit dem iPhone.</li>
+          <li>Spiegelt es über Apple TV an die Tafel.</li>
+        </ol>
+      </div>
+
+      <h2>Vortrag (2 Minuten)</h2>
+      <div class="poster-box">
+        <ul>
+          <li>Dauer: max. 2 Minuten</li>
+          <li>Jeder spricht mindestens kurz</li>
+          <li>wichtigste Punkte erklären</li>
+          <li>Bilder erklären</li>
+          <li>nicht ablesen</li>
+        </ul>
+      </div>
+
+      <h2>Tipp</h2>
+      <div class="poster-box">
+        <p>Fragt euch immer: "Versteht das ein 12-Jähriger?"</p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
+
+
+
+
+
+
